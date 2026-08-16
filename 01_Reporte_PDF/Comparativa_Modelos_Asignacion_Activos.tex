@@ -157,7 +157,7 @@ El desempeño histórico fuera de muestra no garantiza resultados futuros. Toda 
 \end{center}
 \vspace{0.2cm}
 
-\noindent Se evalúa el desempeño fuera de muestra de siete modelos de asignación de activos sobre un universo multiactivo líquido entre 2007 y 2026. La comparación abarca la cartera de referencia 60/40, el modelo equiponderado (1/N), carteras clásicas de media-varianza (Markowitz MVO y Markowitz Remuestreado por Bootstrap), modelos orientados a la asimetría de pérdidas de cola (Mínimo CVaR y Mínimo CDaR) y el algoritmo de Asignación Jerárquica de Contribución de Riesgo Equitativo (HERC). El marco de análisis incorpora un protocolo \textit{Walk-Forward} con deriva diaria de precios, costos de transacción de 5 puntos básicos, cuantificación de pérdidas extremas mediante Teoría de Valores Extremos (Pareto Generalizada), Validación Cruzada Combinatoria con Embargo (CPCV), y contrastación de significancia con Probabilistic Sharpe Ratio (PSR) y Deflated Sharpe Ratio (DSR). Los resultados muestran que ningún modelo domina al resto en todas las dimensiones simultáneamente: la cartera 60/40 registra el mayor CAGR neto (9.64\%) y el mejor Sharpe (0.78), Markowitz MVO el mayor retorno acumulado absoluto (495.64\%), Min-CVaR la menor pérdida en eventos de cola, y HERC la mayor diversificación efectiva ($N_{\text{eff}} = 6.46$) con la rotación más baja de los modelos cuantitativos (31.43\%).\\[0.35cm]
+\noindent Se evalúa el desempeño fuera de muestra de siete modelos de asignación de activos sobre un universo de nueve ETFs líquidos entre 2007 y 2026. La comparación abarca la cartera de referencia 60/40, el modelo equiponderado (1/N), carteras clásicas de media-varianza (Markowitz MVO y Markowitz Remuestreado por Bootstrap), modelos de riesgo de cola (Mínimo CVaR y Mínimo CDaR) y el algoritmo de Asignación Jerárquica de Contribución de Riesgo Equitativo (HERC). El marco de análisis incorpora un protocolo \textit{Walk-Forward} con deriva diaria de precios, costos de transacción de 5 puntos básicos, cuantificación de pérdidas extremas mediante Teoría de Valores Extremos (Pareto Generalizada), Validación Cruzada Combinatoria con Embargo (CPCV), y contrastación de significancia con Probabilistic Sharpe Ratio (PSR) y Deflated Sharpe Ratio (DSR). Los resultados muestran que ningún modelo domina al resto en todas las métricas: la cartera 60/40 registra el mayor CAGR neto (9.64\%) y el mejor Sharpe (0.78), Markowitz MVO el mayor retorno acumulado absoluto (495.64\%), Min-CVaR la menor pérdida en eventos de cola, y HERC la mayor diversificación efectiva ($N_{\text{eff}} = 6.46$) con la rotación más baja de los modelos cuantitativos (31.43\%).\\[0.35cm]
 \indent \textit{Palabras clave:} Asignación de activos, HERC, Markowitz, retroceso condicional, Teoría de Valores Extremos, Validación Cruzada Combinatoria, Probabilistic Sharpe Ratio.\\[0.2cm]
 \indent \textit{Clasificación JEL:} C58, C61, G11, G14. \quad \textit{MSC (2020):} 91G10, 90C90, 62P05.
 
@@ -173,9 +173,9 @@ La teoría clásica de selección de carteras (Markowitz, 1952) formula la asign
 \end{equation}
 Sean $\mu \in \mathbb{R}^N$ el vector de rendimientos esperados, $\Sigma \in \mathbb{R}^{N \times N}$ la matriz de covarianza poblacional, $\gamma > 0$ el coeficiente de aversión al riesgo y $w \in \mathbb{R}^N$ el vector de ponderaciones. En este estudio se establece $\gamma = 2.5$, correspondiente al perfil estándar de una gestión moderada en asignación multiactivo.
 
-La estimación muestral directa de los parámetros $(\mu, \Sigma)$ presenta severas limitaciones prácticas. Michaud (1989) demostró que el optimizador de media-varianza actúa como un amplificador de errores muestrales (\textit{error maximizer}), sobrerepresentando aquellos activos cuyos rendimientos han sido sobrestimados o cuyas varianzas han sido subestimadas. Como resultado, las carteras óptimas tienden a concentrarse en pocos instrumentos y exhiben una alta inestabilidad temporal que induce rotaciones excesivas.
+La estimación muestral directa de los parámetros $(\mu, \Sigma)$ presenta severas limitaciones prácticas. Michaud (1989) demostró que el optimizador de media-varianza actúa como un amplificador de errores muestrales (\textit{error maximizer}): los activos con rendimientos sobrestimados o varianzas subestimadas reciben ponderaciones desproporcionadas. Como resultado, las carteras óptimas tienden a concentrarse en pocos instrumentos y exhiben alta inestabilidad temporal que induce rotaciones excesivas.
 
-Asimismo, la varianza penaliza las desviaciones positivas y negativas de manera simétrica, supuesto que resulta inapropiado en presencia de rendimientos financieros con asimetría negativa y colas pesadas. En tales distribuciones, la varianza subestima sistemáticamente el riesgo de eventos extremos.
+Asimismo, la varianza penaliza por igual las desviaciones positivas y negativas, supuesto que no se sostiene en distribuciones con asimetría negativa y colas pesadas. En esas distribuciones, la varianza subestima el riesgo de eventos extremos.
 
 Para reducir el error de estimación en la matriz de covarianza sin imponer restricciones paramétricas rígidas, se aplica el estimador de contracción lineal (\textit{shrinkage}) de Ledoit y Wolf (2004), el cual combina asintóticamente la matriz muestral $S$ con una estructura objetivo de correlación constante $F$:
 \begin{equation}
@@ -296,7 +296,7 @@ A diferencia de la Paridad de Riesgo Jerárquica tradicional (HRP; López de Pra
 \begin{equation}
 \alpha_{C_1} = \frac{1 / \sigma_{C_1}}{1 / \sigma_{C_1} + 1 / \sigma_{C_2}}, \quad \alpha_{C_2} = 1 - \alpha_{C_1}
 \end{equation}
-Al interior de cada cluster, las ponderaciones individuales se asignan por paridad inversa a su varianza ($1 / \sigma_i^2$). Este procedimiento distribuye el presupuesto de riesgo a lo largo del árbol sin requerir la inversión de la matriz de covarianza completa. La Figura~\ref{fig:frontera} ilustra en el Panel A la frontera eficiente analítica de Markowitz, los 9 activos individuales y la nube de 6\,000 carteras simuladas por Monte Carlo. El Panel B proyecta el cono de incertidumbre generado por remuestreo bootstrap (intervalos de confianza al 80\% y 90\%) y la frontera promedio de Michaud frente a la inestabilidad de Markowitz y la robustez de HERC.
+Al interior de cada cluster, las ponderaciones individuales se asignan por paridad inversa a su varianza ($1 / \sigma_i^2$). Este procedimiento distribuye el presupuesto de riesgo a lo largo del árbol sin invertir la matriz de covarianza completa. La Figura~\ref{fig:frontera} muestra en el Panel A la frontera eficiente analítica de Markowitz, los 9 activos individuales y la nube de 6\,000 carteras simuladas por Monte Carlo. El Panel B ilustra el cono de incertidumbre bajo remuestreo bootstrap (intervalos de confianza al 80\% y 90\%) y la frontera promedio de Michaud.
 
 \begin{figure}[H]
 \centering
@@ -331,7 +331,7 @@ El $\text{VaR}_{99\%}^{\text{EVT}}$ y el $\text{CVaR}_{99\%}^{\text{EVT}}$ de la
 
 \subsection{Distinción Metodológica: Optimización Ex-Ante frente a Auditoría Ex-Post}
 
-En la literatura cuantitativa coexisten dos aproximaciones:
+En la literatura cuantitativa se distinguen dos aproximaciones:
 \begin{itemize}
     \item \textbf{Marco Generativo Ex-Ante (Barone-Adesi et al., 1999; McNeil et al., 2015; Patton, 2012):} Se ajustan modelos GARCH a los activos individuales, se calibran sus colas residuales por EVT, se acoplan con una Cópula multivariada ($t$ de Student) y se simulan escenarios sintéticos para optimizar Mínimo CVaR (Rockafellar y Uryasev, 2000, 2002) o Mínimo CDaR (Chekhlov et al., 2005).
     \item \textbf{Marco Empírico y Auditoría Ex-Post (este estudio):} Los modelos optimizan sobre las ventanas rodantes históricas del mercado, y ex-post se aplica el filtrado GARCH-EVT sobre la serie resultante de cada estrategia para estimar el riesgo de cola bajo innovaciones $i.i.d.$
@@ -391,7 +391,7 @@ donde $\gamma_E \approx 0.5772$ representa la constante de Euler-Mascheroni, $M 
 
 \section{Resultados Empíricos y Análisis Comparativo}
 
-La Tabla~\ref{tab:metricas} consolida el desempeño de las estrategias durante el período de evaluación fuera de muestra (2010--2026), organizada en cuatro bloques temáticos.
+La Tabla~\ref{tab:metricas} presenta el desempeño de las estrategias durante el período de evaluación fuera de muestra (2010--2026), organizada en cuatro bloques temáticos.
 
 \begin{table}[H]
 \centering
@@ -465,7 +465,7 @@ Ningún modelo domina al resto en todas las métricas. Cada estrategia resuelve 
 
 \subsection{Equiponderado (1/N)}
 
-La cartera equiponderada fija $w_i = 1/9$ sin estimar parámetros. No tiene error de estimación: es el único modelo cuya solución no depende de los datos históricos. DeMiguel, Garlappi y Uppal (2009) mostraron empíricamente que 1/N supera a Markowitz en retorno ajustado por riesgo en la mayoría de los conjuntos de datos con ventanas de estimación inferiores a 50 años, consecuencia directa de la amplificación del error muestral en el optimizador cuadrático. Alcanza $N_{\text{eff}} = 9.00$, el más alto del universo. Su limitación es estructural: asigna igual capital a activos con volatilidades muy distintas (IEF: 6.9\%; VNQ: 29.6\%).
+La cartera equiponderada fija $w_i = 1/9$ sin estimar parámetros. No tiene error de estimación: es el único modelo cuya solución no depende de los datos históricos. DeMiguel et al.\ (2009) mostraron empíricamente que 1/N supera a Markowitz en retorno ajustado por riesgo en la mayoría de los conjuntos de datos con ventanas de estimación inferiores a 50 años, consecuencia directa de la amplificación del error muestral en el optimizador cuadrático. Alcanza $N_{\text{eff}} = 9.00$, el más alto del universo. Su limitación es estructural: asigna igual capital a activos con volatilidades muy distintas (IEF: 6.9\%; VNQ: 29.6\%).
 
 \subsection{Cartera 60/40}
 
@@ -563,7 +563,7 @@ Balkema, A. A., \& de Haan, L. (1974). Residual life time at great age. \textit{
 
 Barone-Adesi, G., Giannopoulos, K., \& Vosper, L. (1999). VaR without correlations for nonlinear portfolios. \textit{Journal of Futures Markets}, 19(5), 583--602.
 
-Chekhlov, A., Uryasev, S., \& Zabarankin, M. (2005). Drawdown measure in portfolio optimization. \textit{International Journal of Theoretical and Applied Finance}, 8(01), 13--58.
+Chekhlov, A., Uryasev, S., \& Zabarankin, M. (2005). Drawdown measure in portfolio optimization. \textit{International Journal of Theoretical and Applied Finance}, 8(1), 13--58.
 
 Chopra, V. K., \& Ziemba, W. T. (1993). The effect of errors in means, variances, and covariances on optimal portfolio choice. \textit{The Journal of Portfolio Management}, 19(2), 6--11.
 
@@ -589,9 +589,9 @@ López de Prado, M. (2018). \textit{Advances in Financial Machine Learning}. Joh
 
 Magdon-Ismail, M., \& Atiya, A. F. (2004). Maximum drawdown. \textit{Risk Magazine}, 17(10), 99--102.
 
-Markowitz, H. (1952). Portfolio Selection. \textit{The Journal of Finance}, 7(1), 77--91.
+Markowitz, H. (1952). Portfolio selection. \textit{The Journal of Finance}, 7(1), 77--91.
 
-McNeil, A. J., \& Frey, R. (2000). Estimation of tail-related risk measures for heteroscedastic financial time series: an extreme value approach. \textit{Journal of Empirical Finance}, 7(3-4), 271--300.
+McNeil, A. J., \& Frey, R. (2000). Estimation of tail-related risk measures for heteroscedastic financial time series: An extreme value approach. \textit{Journal of Empirical Finance}, 7(3--4), 271--300.
 
 McNeil, A. J., Frey, R., \& Embrechts, P. (2015). \textit{Quantitative Risk Management: Concepts, Techniques and Tools} (Revised Edition). Princeton University Press.
 
@@ -601,7 +601,7 @@ Michaud, R. O. (1989). The Markowitz optimization enigma: Is 'optimized' optimal
 
 Patton, A. J. (2006). Modelling asymmetric exchange rate dependence. \textit{International Economic Review}, 47(2), 527--556.
 
-Patton, A. J. (2012). A review of copula models for economic time series. \textit{Handbook of Economic Forecasting}, 2, 89--145.
+Patton, A. J. (2012). A review of copula models for economic time series. In G. Elliott \& A. Timmermann (Eds.), \textit{Handbook of Economic Forecasting} (Vol.~2, pp. 89--145). Elsevier.
 
 Pickands, J. (1975). Statistical inference using extreme order statistics. \textit{The Annals of Statistics}, 3(1), 119--131.
 

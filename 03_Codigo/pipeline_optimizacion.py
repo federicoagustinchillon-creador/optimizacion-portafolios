@@ -1245,17 +1245,25 @@ def generar_figura_4_retorno_y_drawdown(
         ("2022-01-01", "2022-10-31", "Shock Inflación\n(2022)"),
     ]
     
+    # Posiciones horizontales de los eventos como fracción del eje x para las etiquetas
+    total_days = (df_rendimientos.index[-1] - df_rendimientos.index[0]).days
+    
     for inicio_ev, fin_ev, texto in eventos_estres:
-        ax1.axvspan(pd.to_datetime(inicio_ev), pd.to_datetime(fin_ev), color="#E2E8F0", alpha=0.50, zorder=1)
-        ax2.axvspan(pd.to_datetime(inicio_ev), pd.to_datetime(fin_ev), color="#E2E8F0", alpha=0.50, zorder=1)
+        t0 = pd.to_datetime(inicio_ev)
+        t1 = pd.to_datetime(fin_ev)
+        ax1.axvspan(t0, t1, color="#E2E8F0", alpha=0.50, zorder=1)
+        ax2.axvspan(t0, t1, color="#E2E8F0", alpha=0.50, zorder=1)
         
-        # Etiqueta horizontal en el margen superior de ax1 para evitar cualquier cruce con las curvas
-        mid_date = pd.to_datetime(inicio_ev) + (pd.to_datetime(fin_ev) - pd.to_datetime(inicio_ev)) / 2
-        ax1.text(
-            mid_date, 660, texto,
-            fontsize=7.8, color="#1E293B", horizontalalignment="center", verticalalignment="center", weight="bold",
-            bbox=dict(boxstyle="round,pad=0.25", facecolor="#F8FAFC", edgecolor="#94A3B8", alpha=0.92, lw=0.7),
-            zorder=6
+        # Etiqueta en coordenadas de ejes (fuera del área de datos, sobre el borde superior)
+        mid_date = t0 + (t1 - t0) / 2
+        x_frac = (mid_date - df_rendimientos.index[0]).days / total_days
+        ax1.annotate(
+            texto,
+            xy=(x_frac, 1.0), xycoords="axes fraction",
+            xytext=(0, 4), textcoords="offset points",
+            fontsize=7.5, color="#1E293B", ha="center", va="bottom", weight="bold",
+            bbox=dict(boxstyle="round,pad=0.22", facecolor="#F8FAFC", edgecolor="#94A3B8", alpha=0.92, lw=0.6),
+            annotation_clip=False, zorder=6
         )
         
     for col in df_rendimientos.columns:
@@ -1271,10 +1279,16 @@ def generar_figura_4_retorno_y_drawdown(
         drawdown = (patrimonio - pico) / pico * 100.0
         ax2.plot(drawdown.index, drawdown.values, color=color, lw=grosor * 0.85, linestyle=estilo, zorder=3)
         
-    ax1.set_title("A. Evolución del Patrimonio Fuera de Muestra (Base 100 = 2010)", pad=12, fontweight="bold")
+    ax1.set_title("A. Evolución del Patrimonio Fuera de Muestra (Base 100 = 2010)", pad=28, fontweight="bold")
     ax1.set_ylabel("Índice de Valor Acumulado")
     ax1.set_ylim(50, 720)
-    ax1.legend(frameon=True, facecolor="#FFFFFF", edgecolor="#CBD5E1", loc="upper left", ncol=2, fontsize=8.4)
+    # Leyenda en una sola columna, esquina superior izquierda sin solapar las anotaciones de eventos
+    ax1.legend(
+        frameon=True, facecolor="#FFFFFF", edgecolor="#CBD5E1",
+        loc="upper left", ncol=2, fontsize=7.6,
+        handlelength=1.8, columnspacing=0.8, handletextpad=0.5,
+        bbox_to_anchor=(0.01, 0.90)
+    )
     ax1.spines["top"].set_visible(False)
     ax1.spines["right"].set_visible(False)
     
@@ -1287,8 +1301,10 @@ def generar_figura_4_retorno_y_drawdown(
     ax2.spines["right"].set_visible(False)
     
     plt.tight_layout()
-    plt.savefig(os.path.join(DIR_FIGURAS, "fig04_retorno_acumulado_y_drawdown.png"), dpi=300)
+    fig.subplots_adjust(top=0.92)
+    plt.savefig(os.path.join(DIR_FIGURAS, "fig04_retorno_acumulado_y_drawdown.png"), dpi=300, bbox_inches="tight")
     plt.close()
+
 
 
 def generar_figura_5_evt_colas(
