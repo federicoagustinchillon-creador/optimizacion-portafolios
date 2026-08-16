@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+.pytest_cache/
+
+# LaTeX build artifacts (preserve .tex and .pdf)
+*.aux
+*.log
+*.toc
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.nav
+*.snm
+*.vrb
+*.bbl
+*.blg
+
+# Office & OS temporary files
+~$*.docx
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
