@@ -109,33 +109,37 @@
 
 \end{titlepage}
 
-% ==================== PÁGINA 2: DESCARGO E ÍNDICE ====================
+% ==================== PÁGINA 2: DESCARGO ====================
 \newpage
 \thispagestyle{empty}
 
-\vspace*{0.3cm}
+\vspace*{2cm}
 \begin{center}
 {\large\bfseries\color{navyblue} Declaración de Divulgación y Descargo de Responsabilidad}
 \end{center}
-\vspace{0.2cm}
+\vspace{0.4cm}
 
 \begingroup
 \setlength{\parindent}{0pt}
 \small\color{darkslate}
-Este trabajo de investigación ha sido elaborado con propósitos estrictamente académicos y científicos. Los modelos analíticos, algoritmos de optimización, contrastes econométricos y resultados de simulación retrospectiva (\textit{backtesting}) presentados no constituyen asesoramiento financiero, consultoría de inversiones, gestión fiduciaria ni solicitud u oferta de compra o venta de instrumentos financieros, fondos cotizados (ETFs) o valores negociables.
+Este trabajo ha sido elaborado con propósitos estrictamente académicos. Los modelos analíticos, algoritmos de optimización, contrastes econométricos y resultados de simulación retrospectiva (\textit{backtesting}) presentados no constituyen asesoramiento financiero, consultoría de inversiones, gestión fiduciaria ni solicitud u oferta de compra o venta de instrumentos financieros, fondos cotizados (ETFs) o valores negociables.
 
-\vspace{0.3cm}
+\vspace{0.4cm}
 El desempeño histórico fuera de muestra no garantiza resultados futuros. Toda implementación práctica de modelos de asignación de capital está sujeta a riesgos de mercado, deslizamiento en la ejecución y variaciones en la liquidez de los activos subyacentes.
 \endgroup
 
-\vspace{0.5cm}
-\noindent\textcolor{lightborder}{\rule{\textwidth}{0.6pt}}
-\vspace{0.3cm}
+\vfill
+\noindent{\footnotesize\color{darkslate}\textit{Documento técnico de investigación | Investigación Cuantitativa | Mendoza, Argentina}}
 
+% ==================== PÁGINA 3: ÍNDICE ====================
+\newpage
+\thispagestyle{empty}
+
+\vspace*{1cm}
 \begin{center}
 {\large\bfseries\color{navyblue} Índice General}
 \end{center}
-\vspace{-0.2cm}
+\vspace{0.2cm}
 
 \begin{spacing}{1.08}
 \small
@@ -143,9 +147,6 @@ El desempeño histórico fuera de muestra no garantiza resultados futuros. Toda 
 \@starttoc{toc}
 \makeatother
 \end{spacing}
-
-\vfill
-\noindent{\footnotesize\color{darkslate}\textit{Documento técnico de investigación | Investigación Cuantitativa | Mendoza, Argentina}}
 
 % ==================== RESUMEN (APA 7 - PÁGINA 3) ====================
 \newpage
@@ -458,61 +459,61 @@ La asignación dinámica de capital en cada rebalanceo mensual se detalla en la 
 \label{fig:riesgo}
 \end{figure}
 
-\section{Análisis Comparativo por Modelo y Benchmark}
+\section{Análisis Comparativo por Modelo}
 
-No existe un modelo que domine al resto en todas las dimensiones de evaluación simultáneamente. Cada estrategia representa un balance explícito entre retorno, riesgo, estabilidad de pesos y requerimientos estadísticos. A continuación se detalla la valoración independiente de cada uno.
+Ningún modelo domina al resto en todas las métricas. Cada estrategia resuelve un problema distinto, con costos y ventajas que dependen del mandato de inversión. A continuación se describe cada uno.
 
 \subsection{Equiponderado (1/N)}
 
-La cartera equiponderada fija $w_i = 1/9$ sin estimar parámetros. Su principal fortaleza radica en la ausencia total de error de estimación: es el único modelo cuya solución es exacta bajo cualquier realización del mercado. DeMiguel, Garlappi y Uppal (2009) demostraron empíricamente que 1/N supera a Markowitz en retorno ajustado por riesgo en la mayoría de los conjuntos de datos reales con ventanas de estimación inferiores a 50 años, resultado directo de la amplificación del error muestral que padece el optimizador cuadrático. El $N_{\text{eff}} = 9.00$ es el más alto del universo evaluado. Su limitación estructural es que asigna igual capital a activos con perfiles de riesgo radicalmente distintos: IEF (vol.~6.9\%) y VNQ (vol.~29.6\%) reciben el mismo peso.
+La cartera equiponderada fija $w_i = 1/9$ sin estimar parámetros. No tiene error de estimación: es el único modelo cuya solución no depende de los datos históricos. DeMiguel, Garlappi y Uppal (2009) mostraron empíricamente que 1/N supera a Markowitz en retorno ajustado por riesgo en la mayoría de los conjuntos de datos con ventanas de estimación inferiores a 50 años, consecuencia directa de la amplificación del error muestral en el optimizador cuadrático. Alcanza $N_{\text{eff}} = 9.00$, el más alto del universo. Su limitación es estructural: asigna igual capital a activos con volatilidades muy distintas (IEF: 6.9\%; VNQ: 29.6\%).
 
-\subsection{Cartera de Referencia 60/40}
+\subsection{Cartera 60/40}
 
-La cartera 60/40 (60\% SPY, 40\% IEF) registra el mayor CAGR neto (9.64\%), el mayor retorno acumulado entre los modelos sin concentración ilimitada (358.51\%), el mejor Sharpe (0.78), el mejor Sortino (0.74) y el DSR más alto (99.64\%). Es el \textbf{benchmark institucional contra el cual todo modelo cuantitativo debe justificar su complejidad operativa adicional.}
+La cartera 60/40 (60\% SPY, 40\% IEF) registra el mayor CAGR neto (9.64\%), el mejor Sharpe (0.78), el mejor Sortino (0.74) y el DSR más alto (99.64\%). Es la referencia contra la que se comparan los demás modelos, y ninguno la supera en retorno ajustado por riesgo dentro del período analizado.
 
-No obstante, sus resultados dependen críticamente del régimen histórico: el ciclo 2010--2026 estuvo dominado por expansión tecnológica y tasas reales negativas. Su $N_{\text{eff}} = 1.92$ revela que, en la práctica, es casi un portafolio de dos activos. En un régimen de estanflación sostenida o correlación positiva entre bonos y acciones (como el observado en 2022), el 60/40 pierde su ventaja de retorno sin reducir su riesgo de retroceso.
+Sus resultados son dependientes del régimen: el ciclo 2010--2026 estuvo dominado por expansión tecnológica y tasas reales negativas. En la práctica es casi un portafolio de dos activos ($N_{\text{eff}} = 1.92$). En 2022, la correlación positiva entre bonos y acciones produjo una caída del $-21.18\%$, poniendo de manifiesto que la diversificación entre clases no siempre opera en episodios de contracción simultánea.
 
 \subsection{Markowitz Media-Varianza}
 
-Markowitz MVO registra el mayor retorno acumulado absoluto del universo (CAGR 11.39\%, acumulado 495.64\%), pero con el perfil de riesgo más desfavorable: volatilidad anual de 17.05\%, retroceso máximo de $-39.32\%$, $\text{CVaR}_{99\%}^{\text{EVT}}$ de $-3.56\%$ y rotación anual de 288.75\%. El Sharpe de 0.55 es el más bajo del universo. El retorno adicional no compensa el riesgo asumido en ninguna métrica ajustada. Concentra el capital en $N_{\text{eff}} = 1.31$ activos efectivos, consecuencia directa del comportamiento de \textit{error maximizer} documentado por Michaud (1989): pequeños errores en $\hat{\mu}$ se amplifican exponencialmente en las ponderaciones, generando concentración en activos de alto retorno histórico reciente.
+Markowitz MVO registra el mayor retorno acumulado del universo (CAGR 11.39\%, acumulado 495.64\%), pero con el peor perfil de riesgo: volatilidad anual de 17.05\%, retroceso máximo de $-39.32\%$, $\text{CVaR}_{99\%}^{\text{EVT}}$ de $-3.56\%$ y rotación anual de 288.75\%. El Sharpe de 0.55 es el más bajo. El retorno adicional frente al 60/40 no compensa el riesgo en ninguna métrica ajustada. La concentración en $N_{\text{eff}} = 1.31$ activos es consecuencia del comportamiento de \textit{error maximizer} documentado por Michaud (1989): errores pequeños en $\hat{\mu}$ se amplifican en las ponderaciones, produciendo concentración en activos de alto retorno histórico reciente.
 
 \subsection{Mínimo CVaR y Mínimo CDaR}
 
-Ambos modelos minimizan métricas de riesgo de cola coherentes. CVaR es una medida coherente en el sentido de Artzner et al.~(1999), satisfaciendo subaditividad, propiedad que la varianza no garantiza en distribuciones asimétricas. CDaR (Chekhlov et al., 2005) optimiza directamente la trayectoria de retrocesos: el promedio de los peores episodios bajo el máximo histórico. Min-CVaR registra el menor retroceso máximo ($-16.29\%$), el menor VaR y CVaR de cola. Se justifica en mandatos con restricciones duras de pérdida máxima (fondos de pensiones, mandatos de capital garantizado).
+Ambos modelos minimizan medidas de riesgo de cola. CVaR es una medida coherente (Artzner et al., 1999) que satisface subaditividad, propiedad que la varianza no garantiza en distribuciones asimétricas. CDaR (Chekhlov et al., 2005) optimiza la trayectoria de retrocesos: el promedio de los peores episodios bajo el máximo histórico. Min-CVaR registra el menor retroceso máximo ($-16.29\%$), el menor VaR y CVaR de cola de todo el universo.
 
-Su limitación es el costo en retorno: CAGR de 5.11\%--5.15\%, acumulado de 127.9\%--129.3\%, sustancialmente por debajo del benchmark 60/40 y del equiponderado. Min-CDaR presenta además alta rotación (261.02\%) por la sensibilidad de la optimización de trayectorias a cambios en la ventana de estimación.
+El costo es el retorno: CAGR de 5.11\%--5.15\% y acumulado de 127.9\%--129.3\%, por debajo de la cartera 60/40 y del equiponderado. Min-CDaR presenta además rotación elevada (261.02\%) por la sensibilidad de la optimización de trayectorias a cambios en la ventana de estimación. Estos modelos son apropiados cuando el mandato impone un límite duro de pérdida máxima.
 
 \subsection{HERC}
 
-HERC distribuye el presupuesto de riesgo entre clústeres jerárquicos sin requerir estimación de retornos esperados. Su fortaleza diferencial es el equilibrio simultáneo entre dimensiones: $N_{\text{eff}} = 6.46$ (mayor diversificación entre modelos cuantitativos), rotación de 31.43\% (menor costo operativo), $\text{PSR} = 99.58\%$ y $\text{DSR} = 98.49\% $ (mayor solidez estadística del universo cuantitativo), y $\text{CVaR}_{99\%}^{\text{EVT}} = -1.53\%$ frente al $-3.56\%$ de Markowitz.
+HERC distribuye el presupuesto de riesgo entre clústeres jerárquicos sin estimar retornos esperados. Sus valores fuera de muestra: $N_{\text{eff}} = 6.46$, rotación de 31.43\%, $\text{PSR} = 99.58\%$, $\text{DSR} = 98.49\%$, $\text{CVaR}_{99\%}^{\text{EVT}} = -1.53\%$.
 
-HERC \textbf{no maximiza el retorno absoluto}: con CAGR de 6.81\% y retorno acumulado de 197.22\%, está por debajo del 60/40, del equiponderado y de Markowitz MVO en términos de riqueza terminal. Tampoco minimiza el retroceso, función que cumple mejor Min-CVaR. Su ventaja es posicionarse en el \textit{trade-off} de forma equilibrada: retorno moderado, retroceso moderado, alta diversificación, baja rotación y robustez estadística.
+HERC \textbf{no maximiza el retorno absoluto}: con CAGR de 6.81\% y retorno acumulado de 197.22\%, queda por debajo del 60/40, del equiponderado y de Markowitz MVO. Tampoco minimiza el retroceso, donde Min-CVaR es superior. Lo que HERC logra es un resultado razonable en todas las métricas al mismo tiempo: retorno moderado, retroceso moderado, alta diversificación efectiva y baja rotación.
 
-\subsection{Tabla de Posicionamiento vs. Benchmark}
+\subsection{Comparación vs. cartera 60/40}
 
-La Tabla~\ref{tab:benchmark} sintetiza el posicionamiento de cada modelo respecto a la cartera 60/40 por dimensión de evaluación.
+La Tabla~\ref{tab:benchmark} resume si cada modelo supera, iguala o queda por debajo del 60/40 en cada dimensión.
 
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.15}
-\caption{Comparación dimensional vs. benchmark 60/40. \checkmark: supera al benchmark; $\circ$: comparable; $\times$: inferior.}
+\caption{Posición relativa vs. cartera 60/40. \checkmark: supera; $\circ$: comparable; $\times$: inferior.}
 \label{tab:benchmark}
 \begin{tabular}{lrrrr}
 \toprule
-\textbf{Dimensión} & \textbf{Markowitz MVO} & \textbf{Mín. CVaR} & \textbf{HERC} & \textbf{1/N} \\
+\textbf{Métrica} & \textbf{Markowitz MVO} & \textbf{Mín. CVaR} & \textbf{HERC} & \textbf{1/N} \\
 \midrule
 CAGR (\%) & \checkmark & $\times$ & $\times$ & $\times$ \\
 Sharpe & $\times$ & $\times$ & $\times$ & $\times$ \\
 Retroceso máximo & $\times$ & \checkmark & $\circ$ & $\circ$ \\
 $\text{CVaR}_{99\%}^{\text{EVT}}$ & $\times$ & \checkmark & \checkmark & $\times$ \\
 Rotación & $\times$ & $\circ$ & \checkmark & \checkmark \\
-$N_{\text{eff}}$ (diversificación) & $\times$ & $\times$ & \checkmark & \checkmark \\
+$N_{\text{eff}}$ & $\times$ & $\times$ & \checkmark & \checkmark \\
 DSR (\%) & $\times$ & $\times$ & $\circ$ & $\times$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Ningún modelo cuantitativo supera al 60/40 en retorno ajustado por riesgo (Sharpe) dentro del período analizado. Los modelos de colas y HERC justifican su implementación en mandatos con restricciones de pérdida o requerimientos de diversificación regulatoria, no por retorno bruto.
+Ningún modelo supera al 60/40 en Sharpe dentro del período analizado. Los modelos de colas y HERC tienen sentido cuando el mandato impone restricciones de pérdida o requiere mayor número de activos efectivos, no como alternativa de mayor retorno.
 
 \subsection{Drawdown, Compounding y la Asimetría de las Pérdidas}
 
@@ -530,13 +531,13 @@ En la teoría del crecimiento óptimo de capital, Vince (1992) demostró que la 
 
 \section{Comportamiento en Regímenes de Crisis y Conclusiones}
 
-La contrastación empírica revela diferencias cuantitativas estructurales entre las metodologías analizadas.
+Los resultados fuera de muestra muestran diferencias cuantitativas entre modelos que no pueden atribuirse a una sola causa.
 
-Durante la crisis de deuda europea (2011), el colapso por COVID-19 (2020) y el episodio estanflacionario de 2022, HERC contuvo el retroceso máximo en $-21.11\%$, frente a $-39.32\%$ en Markowitz MVO y $-28.48\%$ en Michaud. En 2022, la correlación positiva entre bonos y acciones provocó una caída del $-21.18\%$ en la cartera 60/40, mientras que HERC mantuvo mayor estabilidad por la ponderación asignada a materias primas (DBC) y oro (GLD).
+Durante las crisis de 2011, 2020 y 2022, HERC registró un retroceso máximo de $-21.11\%$, frente a $-39.32\%$ en Markowitz MVO y $-28.48\%$ en Michaud. En 2022 la correlación positiva entre bonos y acciones afectó al 60/40 ($-21.18\%$), mientras que la ponderación de HERC en materias primas (DBC) y oro (GLD) redujo la caída relativa.
 
-Markowitz MVO registra el mayor retorno acumulado fuera de muestra (495.64\%), superando al benchmark 60/40 (358.51\%) y a HERC (197.22\%). Este resultado refleja la concentración en activos de renta variable tecnológica durante un ciclo histórico excepcionalmente favorable para dicha clase. Sin embargo, ese retorno se obtiene con el mayor retroceso del universo ($-39.32\%$) y el menor Sharpe (0.55), lo que indica que el riesgo asumido no fue compensado proporcionalmente.
+Markowitz MVO acumula el mayor retorno fuera de muestra (495.64\%), por encima del 60/40 (358.51\%) y de HERC (197.22\%). Este resultado se explica por la concentración en renta variable tecnológica durante un ciclo favorable para esa clase de activos. Ese retorno se obtiene con el mayor retroceso del universo ($-39.32\%$) y el Sharpe más bajo (0.55): el riesgo adicional asumido no fue compensado proporcionalmente.
 
-Respecto a la fricción operativa, Markowitz MVO registra una rotación anual del $288.75\%$ y Michaud del $503.76\%$, mientras que HERC opera con solo $31.43\%$. Markowitz concentra el capital en $N_{\text{eff}} = 1.31$ activos efectivos. HERC distribuye el capital en $N_{\text{eff}} = 6.46$ activos efectivos, con $\text{PSR} = 99.58\%$, $\text{DSR} = 98.49\%$ y $\text{CVaR}_{99\%}^{\text{EVT}} = -1.53\%$ frente al $-3.56\%$ de Markowitz.
+Markowitz MVO rota a 288.75\% anual y Michaud a 503.76\%; HERC opera a 31.43\%. Markowitz concentra el capital en $N_{\text{eff}} = 1.31$ activos. HERC alcanza $N_{\text{eff}} = 6.46$, con $\text{PSR} = 99.58\%$, $\text{DSR} = 98.49\%$ y $\text{CVaR}_{99\%}^{\text{EVT}} = -1.53\%$ frente a $-3.56\%$ de Markowitz.
 
 \section{Limitaciones del Estudio y Extensiones Metodológicas}
 
