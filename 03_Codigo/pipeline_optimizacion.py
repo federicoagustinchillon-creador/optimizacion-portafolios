@@ -790,7 +790,7 @@ def ejecutar_walk_forward(
                     rendimientos_fuera_muestra["Ensamble_Equal"] = []
             except Exception as e:
                 # No bloquear pipeline por fallos en el ensamble; registrar y continuar
-                print(f"Warning: ensamble fallback - {e}")
+                print(f"Advertencia: fallo en ensamble - {e}")
 
             
             for m in modelos:
@@ -1588,14 +1588,14 @@ def generar_figura_7_presupuesto_riesgo(
 # 10. EJECUCIÓN PRINCIPAL DEL PIPELINE
 # ==============================================================================
 def main() -> None:
-    print("Iniciando pipeline de optimización de portafolios (Motor Nativo SciPy/NumPy)...")
+    print("Inicio del pipeline de optimización de portafolios (Motor Nativo SciPy/NumPy).")
     
     # 1. Descarga e ingestión
     precios = descargar_datos(TICKERS, fecha_inicio="2007-01-01", fecha_fin="2026-08-01")
     rendimientos_simples, rendimientos_logaritmicos = calcular_rendimientos(precios)
     
     # 1.1 Diagnóstico econométrico y validación formal de supuestos
-    print("Ejecutando contraste econométrico y verificación de supuestos sobre los 9 activos...")
+    print("Contraste econométrico y verificación de supuestos en ejecución sobre los 9 activos...")
     df_diagnostico = ejecutar_diagnostico_econometrico(precios, rendimientos_logaritmicos)
     print("\n--- RESUMEN DE DIAGNÓSTICO ECONOMÉTRICO (ADF, JB, Ljung-Box, ARCH-LM) ---")
     print(df_diagnostico[["Retorno Anual (%)", "Volatilidad Anual (%)", "Asimetría (Skew)", "Curtosis Exceso", "JB p-valor", "Q(10) Retornos (p-val)", "ARCH Q(10) (p-val)", "ADF Retornos (p-val)"]].round(4).to_string())
@@ -1657,7 +1657,7 @@ def main() -> None:
     pd.set_option("display.max_columns", 10)
     pd.set_option("display.width", 120)
     print(df_metricas.round(2).to_string())
-    print("\nPipeline completado exitosamente.")
+    print("\nPipeline completado.")
 
 
 if __name__ == "__main__":
