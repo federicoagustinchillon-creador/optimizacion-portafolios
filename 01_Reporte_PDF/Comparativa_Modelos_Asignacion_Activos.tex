@@ -181,11 +181,11 @@ Para reducir el error de estimación en la matriz de covarianza sin imponer rest
 \begin{equation}
 \Sigma_{\text{LW}} = \hat{\delta} F + (1 - \hat{\delta}) S
 \end{equation}
-La intensidad de contracción $\hat{\delta} \in [0, 1]$ se determina analíticamente minimizando la pérdida cuadrática esperada bajo la norma de Frobenius. Para una matriz $A \in \mathbb{R}^{N \times N}$, dicha norma se define como
+La intensidad de contracción $\hat{\delta} \in [0, 1]$ se determina analíticamente minimizando la pérdida cuadrática esperada bajo la norma de Frobenius, definida para $A \in \mathbb{R}^{N \times N}$ como
 \begin{equation}
 \|A\|_F = \sqrt{\sum_{i=1}^{N} \sum_{j=1}^{N} a_{ij}^2} = \sqrt{\operatorname{tr}\left(A^\top A\right)}
 \end{equation}
-es decir, la raíz cuadrada de la suma de los cuadrados de todos sus elementos, equivalente a apilar la matriz en un vector de $\mathbb{R}^{N^2}$ y tomar su norma euclidiana. Ledoit y Wolf (2004) la emplean para cuantificar la distancia esperada entre el estimador $\Sigma_{\text{LW}}$ y la matriz de covarianza poblacional desconocida $\Sigma_0$, $\mathbb{E}\left[\left\|\Sigma_{\text{LW}} - \Sigma_0\right\|_F^2\right]$, y obtienen $\hat{\delta}$ en forma cerrada minimizando ese riesgo cuadrático. La norma de Frobenius resulta la elección natural para este problema, frente a alternativas como la norma espectral (que solo penaliza el mayor autovalor del error), porque pondera el error de estimación en \emph{todas} las entradas de la matriz --incluidas las covarianzas fuera de la diagonal-- y, al ser diferenciable y estrictamente convexa en $\hat{\delta}$, admite la solución analítica cerrada que hace viable aplicar el estimador sin costo computacional adicional en cada rebalanceo del protocolo \textit{Walk-Forward}.
+Ledoit y Wolf (2004) minimizan $\mathbb{E}\left[\left\|\Sigma_{\text{LW}} - \Sigma_0\right\|_F^2\right]$ respecto de $\hat{\delta}$, con $\Sigma_0$ la matriz de covarianza poblacional desconocida.
 
 \section{Universo Multiactivo y Topología de Dependencias}
 
