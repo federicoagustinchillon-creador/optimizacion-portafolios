@@ -45,6 +45,10 @@ os.makedirs(DIR_FIGURAS, exist_ok=True)
 os.makedirs(DIR_DATOS, exist_ok=True)
 # Ensemble: alpha for turnover shrinkage (read from env var for experiments)
 ENSEMBLE_ALPHA = float(os.environ.get('ENSEMBLE_ALPHA', '0.1'))
+# Quick-run overrides (for CI / smoke tests). Set QUICK_RUN=1 and optionally QUICK_DIAS_VENTANA, QUICK_DIAS_REBALANCEO in env.
+QUICK_RUN = os.environ.get('QUICK_RUN', '0') == '1'
+QUICK_DIAS_VENTANA = int(os.environ.get('QUICK_DIAS_VENTANA', '252'))
+QUICK_DIAS_REBALANCEO = int(os.environ.get('QUICK_DIAS_REBALANCEO', '21'))
 
 
 # Universo de 9 activos líquidos multiactivo
@@ -1627,11 +1631,17 @@ def main() -> None:
     generar_figura_7_presupuesto_riesgo(pesos_estaticos, matriz_cov, TICKERS)
     
     # 5. Walk-Forward fuera de muestra
+    # parameters for walk-forward; allow quick-run overrides for smoke tests
+    dias_ventana_param = 756
+    dias_rebalanceo_param = 21
+    if QUICK_RUN:
+        dias_ventana_param = QUICK_DIAS_VENTANA
+        dias_rebalanceo_param = QUICK_DIAS_REBALANCEO
     df_rendimientos_oos, _, dfs_ponderaciones = ejecutar_walk_forward(
         precios=precios,
         tickers=TICKERS,
-        dias_ventana=756,
-        dias_rebalanceo=21,
+        dias_ventana=dias_ventana_param,
+        dias_rebalanceo=dias_rebalanceo_param,
         tasa_friccion_bps=5.0
     )
     df_rendimientos_oos.to_csv(os.path.join(DIR_DATOS, "retornos_diarios_oos.csv"))
