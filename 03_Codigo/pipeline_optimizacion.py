@@ -770,6 +770,18 @@ def ejecutar_walk_forward(
                 "Min_CDaR": optimizar_minimo_cdar(ventana_simp, nivel_confianza=0.95),
                 "HERC": optimizar_herc(cov_estimada, arbol_enlace, orden_cuasidiagonal),
             }
+
+            # Agregar ensamble simple (equal) y aplicar shrinkage por turnover (alpha=0.1)
+            try:
+                pesos_objetivo["Ensamble_Equal"] = blend_portfolios(pesos_objetivo, method='equal')
+                prev_ens = pesos_vigentes.get("Ensamble_Equal", np.ones(n_activos) / float(n_activos))
+                pesos_objetivo["Ensamble_Equal"] = apply_turnover_shrinkage(pesos_objetivo["Ensamble_Equal"], prev_ens, alpha=0.1)
+                if "Ensamble_Equal" not in modelos:
+                    modelos.append("Ensamble_Equal")
+            except Exception as e:
+                # No bloquear pipeline por fallos en el ensamble; registrar y continuar
+                print(f"Warning: ensamble fallback - {e}")
+
             
             for m in modelos:
                 rotacion = np.sum(np.abs(pesos_objetivo[m] - pesos_vigentes[m]))
