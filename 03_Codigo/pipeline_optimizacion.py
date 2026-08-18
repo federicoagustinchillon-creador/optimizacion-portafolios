@@ -783,6 +783,8 @@ def ejecutar_walk_forward(
                     pesos_vigentes["Ensamble_Equal"] = prev_ens
                 if "Ensamble_Equal" not in historial_ponderaciones:
                     historial_ponderaciones["Ensamble_Equal"] = []
+                if "Ensamble_Equal" not in rendimientos_fuera_muestra:
+                    rendimientos_fuera_muestra["Ensamble_Equal"] = []
             except Exception as e:
                 # No bloquear pipeline por fallos en el ensamble; registrar y continuar
                 print(f"Warning: ensamble fallback - {e}")
