@@ -43,6 +43,9 @@ DIR_DATOS = os.path.join(DIRECTORIO_BASE, "05_Datos_y_Resultados")
 
 os.makedirs(DIR_FIGURAS, exist_ok=True)
 os.makedirs(DIR_DATOS, exist_ok=True)
+# Ensemble: alpha for turnover shrinkage (read from env var for experiments)
+ENSEMBLE_ALPHA = float(os.environ.get('ENSEMBLE_ALPHA', '0.1'))
+
 
 # Universo de 9 activos líquidos multiactivo
 TICKERS: List[str] = [
@@ -775,7 +778,7 @@ def ejecutar_walk_forward(
             try:
                 pesos_objetivo["Ensamble_Equal"] = blend_portfolios(pesos_objetivo, method='equal')
                 prev_ens = pesos_vigentes.get("Ensamble_Equal", np.ones(n_activos) / float(n_activos))
-                pesos_objetivo["Ensamble_Equal"] = apply_turnover_shrinkage(pesos_objetivo["Ensamble_Equal"], prev_ens, alpha=0.1)
+                pesos_objetivo["Ensamble_Equal"] = apply_turnover_shrinkage(pesos_objetivo["Ensamble_Equal"], prev_ens, alpha=ENSEMBLE_ALPHA)
                 if "Ensamble_Equal" not in modelos:
                     modelos.append("Ensamble_Equal")
                 # Ensure data structures include the new ensemble model
