@@ -9,7 +9,8 @@ venv/
 .venv/
 .pytest_cache/
 
-# LaTeX build artifacts (preserve .tex and .pdf)
+# LaTeX build artifacts (keep build artifacts; .tex generator removed from repo)
+*.tex
 *.aux
 *.log
 *.toc

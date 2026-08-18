@@ -16,7 +16,7 @@ Evaluación cuantitativa, diagnóstico econométrico y contrastación empírica 
 01_Optimizacion_Portafolios/
 ├── 01_Reporte_PDF/
 │   ├── Comparativa_Modelos_Asignacion_Activos.pdf     # Documento técnico en formato PDF (Georgia, 14 págs.)
-│   └── Comparativa_Modelos_Asignacion_Activos.tex     # Código fuente en LaTeX con todas las secciones y tablas
+│   └── Comparativa_Modelos_Asignacion_Activos.docx    # Fuente DOCX 1:1 — el .tex generador ha sido eliminado del repo
 ├── 02_Documento_Word/
 │   └── Comparativa_Modelos_Asignacion_Activos.docx    # Documento sincronizado en formato Word (.docx)
 ├── 03_Codigo/
