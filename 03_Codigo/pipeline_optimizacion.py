@@ -1168,7 +1168,7 @@ def generar_figura_2_frontera_eficiente(
     ax1.set_ylim(0.5, 17.5)
     ax1.spines["top"].set_visible(False)
     ax1.spines["right"].set_visible(False)
-    ax1.legend(frameon=True, facecolor="#FFFFFF", edgecolor="#CBD5E1", loc="upper left", fontsize=7.8, ncol=1)
+    ax1.legend(frameon=True, facecolor="#FFFFFF", edgecolor="#CBD5E1", loc="upper left", fontsize=7.0, ncol=1, bbox_to_anchor=(1.02, 1.0))
     
     # ---------------- PANEL B: Remuestreo Bootstrap de Michaud ----------------
     t_muestras = 756
@@ -1241,7 +1241,7 @@ def generar_figura_2_frontera_eficiente(
     ax2.set_ylim(2.5, 16.5)
     ax2.spines["top"].set_visible(False)
     ax2.spines["right"].set_visible(False)
-    ax2.legend(frameon=True, facecolor="#FFFFFF", edgecolor="#CBD5E1", loc="upper left", fontsize=7.8)
+    ax2.legend(frameon=True, facecolor="#FFFFFF", edgecolor="#CBD5E1", loc="upper left", fontsize=7.0, bbox_to_anchor=(1.02, 1.0))
     
     plt.tight_layout()
     plt.savefig(os.path.join(DIR_FIGURAS, "fig02_frontera_eficiente_modelos.png"), dpi=300)
@@ -1287,16 +1287,16 @@ def generar_figura_3_evolucion_pesos(
     fig.legend(
         handles, labels,
         loc="lower center",
-        ncol=5,
-        bbox_to_anchor=(0.5, -0.04),
+       ncol=3,
+       bbox_to_anchor=(0.5, -0.08),
         frameon=True,
         facecolor="#FFFFFF",
         edgecolor="#CBD5E1",
-        fontsize=9.0
+       fontsize=8.0
     )
-    
+     
     plt.tight_layout()
-    plt.subplots_adjust(bottom=0.12)
+    plt.subplots_adjust(bottom=0.18)
     plt.savefig(os.path.join(DIR_FIGURAS, "fig03_evolucion_pesos_walk_forward.png"), dpi=300, bbox_inches="tight")
     plt.close()
 
