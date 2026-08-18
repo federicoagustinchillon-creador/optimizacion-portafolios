@@ -30,3 +30,4 @@ venv/
 Thumbs.db
 desktop.ini
 *.tmp
+# Ignore experimental artifacts created by CI/experiments\n04_Figuras/alpha_*\n05_Datos_y_Resultados/metricas_alpha_*.csv\n05_Datos_y_Resultados/pesos_historicos_Ensamble_Equal.csv\n02_Documento_Word/*.bak-*
