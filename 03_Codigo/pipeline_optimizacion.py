@@ -1305,7 +1305,7 @@ def generar_figura_4_retorno_y_drawdown(
     df_rendimientos: pd.DataFrame
 ) -> None:
     """Figura 4: Evolución del patrimonio acumulado y curvas de retroceso (drawdown)."""
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(13.5, 8.5), sharex=True, gridspec_kw={"height_ratios": [2.3, 1.2]})
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14.5, 8.5), sharex=True, gridspec_kw={"height_ratios": [2.3, 1.2]})
     
     # Eventos de estrés de mercado
     eventos_estres = [
@@ -1354,9 +1354,9 @@ def generar_figura_4_retorno_y_drawdown(
     # Leyenda en una sola columna, esquina superior izquierda sin solapar las anotaciones de eventos
     ax1.legend(
         frameon=True, facecolor="#FFFFFF", edgecolor="#CBD5E1",
-        loc="upper left", ncol=2, fontsize=7.6,
+            loc="upper left", ncol=1, fontsize=7.2,
         handlelength=1.8, columnspacing=0.8, handletextpad=0.5,
-        bbox_to_anchor=(0.01, 0.90)
+            bbox_to_anchor=(0.01, 0.95)
     )
     ax1.spines["top"].set_visible(False)
     ax1.spines["right"].set_visible(False)
