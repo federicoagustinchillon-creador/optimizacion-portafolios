@@ -778,6 +778,11 @@ def ejecutar_walk_forward(
                 pesos_objetivo["Ensamble_Equal"] = apply_turnover_shrinkage(pesos_objetivo["Ensamble_Equal"], prev_ens, alpha=0.1)
                 if "Ensamble_Equal" not in modelos:
                     modelos.append("Ensamble_Equal")
+                # Ensure data structures include the new ensemble model
+                if "Ensamble_Equal" not in pesos_vigentes:
+                    pesos_vigentes["Ensamble_Equal"] = prev_ens
+                if "Ensamble_Equal" not in historial_ponderaciones:
+                    historial_ponderaciones["Ensamble_Equal"] = []
             except Exception as e:
                 # No bloquear pipeline por fallos en el ensamble; registrar y continuar
                 print(f"Warning: ensamble fallback - {e}")
