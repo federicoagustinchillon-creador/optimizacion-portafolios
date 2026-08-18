@@ -345,6 +345,49 @@ def optimizar_michaud_remuestreado(
     return pesos_promedio / np.sum(pesos_promedio)
 
 
+# ------------------ Utility: ensemble blending & turnover shrinkage ------------------
+def blend_portfolios(pesos_dict: dict, method: str = 'equal', performance_scores: dict = None) -> np.ndarray:
+    """Agrega múltiples vectores de pesos de cartera.
+    pesos_dict: {'model_name': np.ndarray([...])}
+    method: 'equal'|'median'|'performance'
+    performance_scores: dict con puntajes (ej. Sharpe) usados cuando method=='performance'.
+    Retorna vector de pesos normalizados y no-negativos.
+    """
+    modelos = list(pesos_dict.keys())
+    matriz = np.vstack([pesos_dict[m] for m in modelos])  # shape (n_models, n_assets)
+    if method == 'equal':
+        w = matriz.mean(axis=0)
+    elif method == 'median':
+        w = np.median(matriz, axis=0)
+    elif method == 'performance' and performance_scores is not None:
+        scores = np.array([performance_scores.get(m, 0.0) for m in modelos], dtype=float)
+        if scores.sum() <= 0:
+            weights = np.ones(len(scores)) / len(scores)
+        else:
+            weights = scores / scores.sum()
+        w = (weights[:, None] * matriz).sum(axis=0)
+    else:
+        raise ValueError("Método de agregación desconocido o faltan performance_scores")
+    w = np.clip(w, 0.0, None)
+    if w.sum() == 0:
+        return np.ones_like(w) / float(len(w))
+    return w / float(w.sum())
+
+
+def apply_turnover_shrinkage(w_target: np.ndarray, w_prev: np.ndarray, alpha: float = 0.1) -> np.ndarray:
+    """Aplicar una penalidad de turnover simple mediante shrinkage (convex combination).
+    alpha en [0,1] es la fracción a mantener del portafolio anterior; restringe cambios bruscos.
+    Esta aproximación evita reescribir la función de optimización y es fácil de parametrizar.
+    """
+    if w_prev is None or len(w_prev) != len(w_target):
+        w_prev = np.ones_like(w_target) / float(len(w_target))
+    w = (1.0 - alpha) * w_target + alpha * w_prev
+    w = np.clip(w, 0.0, None)
+    if w.sum() == 0:
+        return np.ones_like(w) / float(len(w))
+    return w / float(w.sum())
+
+
 def optimizar_minimo_cvar(
     matriz_rendimientos: np.ndarray,
     nivel_confianza: float = 0.95
