@@ -305,7 +305,7 @@ Al interior de cada cluster, las ponderaciones individuales se asignan por parid
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.96\textwidth]{fig02_frontera_eficiente_modelos.png}
-\caption{Frontera eficiente media-varianza analítica, posicionamiento de activos y estrategias evaluadas (Panel A) y cono de incertidumbre muestral bajo remuestreo bootstrap de Michaud (Panel B).}
+\caption{Frontera eficiente media-varianza analítica, posicionamiento de activos y los nueve modelos evaluados en este documento --incluidos DRO-Wasserstein y Marco Generativo Ex-Ante-- (Panel A) y cono de incertidumbre muestral bajo remuestreo bootstrap de Michaud (Panel B).}
 \label{fig:frontera}
 \end{figure}
 
@@ -428,52 +428,52 @@ La Tabla~\ref{tab:metricas} presenta el desempeño de las estrategias durante el
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.18}
-\caption{Indicadores de desempeño, riesgo, colas extremas y operatividad fuera de muestra (2010--2026): 1/N, 60/40, Markowitz, Michaud, Mín. CVaR, Mín. CDaR y HERC. Véase la Tabla~\ref{tab:metricas_extension} para DRO-Wasserstein y el Marco Generativo Ex-Ante.}
+\caption{Indicadores de desempeño, riesgo, colas extremas y operatividad fuera de muestra (2010--2026) para los nueve modelos evaluados en este documento.}
 \label{tab:metricas}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{lrrrrrrr}
+\begin{tabular}{lrrrrrrrrr}
 \toprule
-\textbf{Indicador / Métrica} & \textbf{1/N Equip.} & \textbf{Ref. 60/40} & \textbf{Markowitz} & \textbf{Michaud Rem.} & \textbf{Mín. CVaR} & \textbf{Mín. CDaR} & \textbf{HERC} \\
+\textbf{Indicador / Métrica} & \textbf{1/N Equip.} & \textbf{Ref. 60/40} & \textbf{Markowitz} & \textbf{Michaud Rem.} & \textbf{Mín. CVaR} & \textbf{Mín. CDaR} & \textbf{HERC} & \textbf{DRO-Wasserstein} & \textbf{Mín. CVaR Ex-Ante} \\
 \midrule
-\multicolumn{8}{l}{\textit{\textbf{A. Rendimiento y Retorno Acumulado}}} \\
-CAGR (\%) & 7.85 & 9.64 & 11.39 & 10.48 & 5.11 & 5.15 & 6.81 \\
-Retorno Acumulado (\%) & 249.2 & 358.5 & 495.6 & 419.9 & 127.9 & 129.3 & 197.2 \\
+\multicolumn{10}{l}{\textit{\textbf{A. Rendimiento y Retorno Acumulado}}} \\
+CAGR (\%) & 7.85 & 9.64 & 11.39 & 10.48 & 5.11 & 5.15 & 6.81 & 7.46 & 4.58 \\
+Retorno Acumulado (\%) & 249.2 & 358.5 & 495.6 & 419.9 & 127.9 & 129.3 & 197.2 & 228.7 & 109.8 \\
 \midrule
-\multicolumn{8}{l}{\textit{\textbf{B. Riesgo y Desempeño Ajustado}}} \\
-Volatilidad Anual (\%) & 9.49 & 9.79 & 17.05 & 13.61 & 5.32 & 6.38 & 7.35 \\
-Desviación a la Baja (\%) & 10.10 & 10.34 & 18.60 & 14.76 & 5.54 & 6.73 & 7.82 \\
-Ratio de Sharpe & 0.617 & 0.781 & 0.551 & 0.623 & 0.584 & 0.493 & 0.654 \\
-Ratio de Sortino & 0.580 & 0.739 & 0.505 & 0.575 & 0.561 & 0.468 & 0.615 \\
-Ratio de Calmar & 0.376 & 0.455 & 0.290 & 0.368 & 0.314 & 0.265 & 0.323 \\
-Ratio de Omega & 1.121 & 1.156 & 1.114 & 1.125 & 1.108 & 1.096 & 1.126 \\
-Ratio Ganancia/Pérdida & 1.164 & 1.200 & 1.138 & 1.155 & 1.182 & 1.159 & 1.182 \\
+\multicolumn{10}{l}{\textit{\textbf{B. Riesgo y Desempeño Ajustado}}} \\
+Volatilidad Anual (\%) & 9.49 & 9.79 & 17.05 & 13.61 & 5.32 & 6.38 & 7.35 & 8.92 & 5.32 \\
+Desviación a la Baja (\%) & 10.10 & 10.34 & 18.60 & 14.76 & 5.54 & 6.73 & 7.82 & 9.52 & 5.55 \\
+Ratio de Sharpe & 0.617 & 0.781 & 0.551 & 0.623 & 0.584 & 0.493 & 0.654 & 0.612 & 0.485 \\
+Ratio de Sortino & 0.580 & 0.739 & 0.505 & 0.575 & 0.561 & 0.468 & 0.615 & 0.573 & 0.465 \\
+Ratio de Calmar & 0.376 & 0.455 & 0.290 & 0.368 & 0.314 & 0.265 & 0.323 & 0.356 & 0.258 \\
+Ratio de Omega & 1.121 & 1.156 & 1.114 & 1.125 & 1.108 & 1.096 & 1.126 & 1.120 & 1.091 \\
+Ratio Ganancia/Pérdida & 1.164 & 1.200 & 1.138 & 1.155 & 1.182 & 1.159 & 1.182 & 1.165 & 1.165 \\
 \midrule
-\multicolumn{8}{l}{\textit{\textbf{C. Riesgo Extremo y Colas EVT}}} \\
-Retroceso Máximo (\%) & -20.86 & -21.18 & -39.32 & -28.48 & -16.29 & -19.39 & -21.11 \\
-CDaR 95\% (\%) & -14.77 & -15.52 & -35.61 & -25.49 & -12.77 & -15.81 & -15.35 \\
-VaR 95\% Diario (\%) & -0.90 & -0.94 & -1.74 & -1.41 & -0.52 & -0.61 & -0.72 \\
-CVaR 95\% Diario (\%) & -1.40 & -1.47 & -2.71 & -2.12 & -0.79 & -0.97 & -1.09 \\
-VaR 99\% EVT (\%) & -1.54 & -1.56 & -2.87 & -2.28 & -0.83 & -0.99 & -1.17 \\
-CVaR 99\% EVT (\%) & -1.96 & -1.98 & -3.56 & -2.83 & -1.05 & -1.25 & -1.53 \\
-Coeficiente de Asimetría & -0.547 & -0.308 & -0.530 & -0.525 & -0.173 & -0.291 & -0.368 \\
-Curtosis de Exceso & 9.10 & 9.74 & 4.09 & 4.89 & 3.69 & 5.55 & 7.75 \\
+\multicolumn{10}{l}{\textit{\textbf{C. Riesgo Extremo y Colas EVT}}} \\
+Retroceso Máximo (\%) & -20.86 & -21.18 & -39.32 & -28.48 & -16.29 & -19.39 & -21.11 & -20.93 & -17.78 \\
+CDaR 95\% (\%) & -14.77 & -15.52 & -35.61 & -25.49 & -12.77 & -15.81 & -15.35 & -14.90 & -12.78 \\
+VaR 95\% Diario (\%) & -0.90 & -0.94 & -1.74 & -1.41 & -0.52 & -0.61 & -0.72 & -0.86 & -0.52 \\
+CVaR 95\% Diario (\%) & -1.40 & -1.47 & -2.71 & -2.12 & -0.79 & -0.97 & -1.09 & -1.31 & -0.79 \\
+VaR 99\% EVT (\%) & -1.54 & -1.56 & -2.87 & -2.28 & -0.83 & -0.99 & -1.17 & -1.44 & -0.83 \\
+CVaR 99\% EVT (\%) & -1.96 & -1.98 & -3.56 & -2.83 & -1.05 & -1.25 & -1.53 & -1.84 & -1.06 \\
+Coeficiente de Asimetría & -0.547 & -0.308 & -0.530 & -0.525 & -0.173 & -0.291 & -0.368 & -0.559 & -0.218 \\
+Curtosis de Exceso & 9.10 & 9.74 & 4.09 & 4.89 & 3.69 & 5.55 & 7.75 & 9.16 & 4.52 \\
 \midrule
-\multicolumn{8}{l}{\textit{\textbf{D. Significancia y Operatividad}}} \\
-PSR (vs 0) (\%) & 99.34 & 99.92 & 98.67 & 99.39 & 99.09 & 97.70 & 99.58 \\
-DSR (\%) & 95.45 & 99.64 & 95.33 & 97.90 & 97.24 & 93.29 & 98.49 \\
-Rotación Anualizada (\%) & 0.00 & 0.00 & 288.75 & 503.76 & 66.37 & 261.02 & 31.43 \\
-Nº Efectivo de Activos ($N_{\text{eff}}$) & 9.00 & 1.92 & 1.31 & 2.65 & 1.84 & 2.16 & 6.46 \\
+\multicolumn{10}{l}{\textit{\textbf{D. Significancia y Operatividad}}} \\
+PSR (vs 0) (\%) & 99.34 & 99.92 & 98.67 & 99.39 & 99.09 & 97.70 & 99.58 & 99.30 & 97.53 \\
+DSR (\%) & 95.45 & 99.64 & 95.33 & 97.90 & 97.24 & 93.29 & 98.49 & 98.48 & 96.64 \\
+Rotación Anualizada (\%) & 0.00 & 0.00 & 288.75 & 503.76 & 66.37 & 261.02 & 31.43 & 3.77 & 413.00 \\
+Nº Efectivo de Activos ($N_{\text{eff}}$) & 9.00 & 1.92 & 1.31 & 2.65 & 1.84 & 2.16 & 6.46 & 8.92 & 1.93 \\
 \bottomrule
 \end{tabular}%
 }
 \end{table}
 
-La asignación dinámica de capital en cada rebalanceo mensual se detalla en la Figura~\ref{fig:pesos}. Markowitz MVO rota abruptamente entre clases de activos, mientras que HERC mantiene una estructura diversificada y estable. La Figura~\ref{fig:drawdown} presenta las curvas de riqueza acumulada y los episodios de retroceso durante las crisis de 2011, 2020 y 2022 para las nueve estrategias evaluadas en este documento, incluidas DRO-Wasserstein y Mínimo CVaR Ex-Ante (Tabla~\ref{tab:metricas_extension}). La descomposición del presupuesto de riesgo frente a la ponderación nominal se muestra en la Figura~\ref{fig:riesgo} (Paneles A--D).
+La asignación dinámica de capital en cada rebalanceo mensual se detalla en la Figura~\ref{fig:pesos}: Markowitz MVO rota abruptamente entre clases de activos (Panel A), HERC mantiene una estructura diversificada y estable (Panel C), DRO-Wasserstein apenas varía en 16 años (Panel E) y Mínimo CVaR Ex-Ante reasigna capital de forma abrupta en casi cada rebalanceo (Panel F) --la contrapartida visual directa de su rotación de $413.00\%$ en la Tabla~\ref{tab:metricas}. La Figura~\ref{fig:drawdown} presenta las curvas de riqueza acumulada y los episodios de retroceso durante las crisis de 2011, 2020 y 2022 para las nueve estrategias. La descomposición del presupuesto de riesgo frente a la ponderación nominal se muestra en la Figura~\ref{fig:riesgo} (Paneles A--D).
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.92\textwidth]{fig03_evolucion_pesos_walk_forward.png}
-\caption{Evolución temporal de la asignación de activos a lo largo de los rebalanceos mensuales fuera de muestra (2010--2026).}
+\includegraphics[width=0.98\textwidth]{fig03_evolucion_pesos_walk_forward.png}
+\caption{Evolución temporal de la asignación de activos a lo largo de los rebalanceos mensuales fuera de muestra (2010--2026): Markowitz MVO (A), Mínimo CVaR (B), HERC (C), Referencia 60/40 (D), DRO-Wasserstein (E) y Mínimo CVaR Ex-Ante (F).}
 \label{fig:pesos}
 \end{figure}
 
@@ -489,60 +489,6 @@ La asignación dinámica de capital en cada rebalanceo mensual se detalla en la 
 \includegraphics[width=0.92\textwidth]{fig07_descomposicion_riesgo_cluster.png}
 \caption{Descomposición del presupuesto de riesgo: Ponderación de capital ($w_i$) frente a Contribución Marginal al Riesgo ($\%RC_i$) por activo. Markowitz MVO (Panel A) y HERC (Panel B) sobre la asignación estática de muestra completa ya reportada en la Sección 3; DRO-Wasserstein (Panel C) y Mínimo CVaR Ex-Ante (Panel D) sobre la misma optimización aplicada una sola vez a toda la muestra, para comparabilidad directa con A y B.}
 \label{fig:riesgo}
-\end{figure}
-
-La Tabla~\ref{tab:metricas_extension} añade a la comparación anterior los dos modelos que incorporan explícitamente robustez distribucional (DRO-Wasserstein) y generación de escenarios sintéticos (Marco Generativo Ex-Ante), evaluados bajo el \textbf{mismo} protocolo Walk-Forward, universo de 9 activos, costos de transacción (5pb) y período (2010--2026) que el resto del documento -- ningún parámetro experimental cambia, solo el modelo de asignación.
-
-\begin{table}[H]
-\centering
-\renewcommand{\arraystretch}{1.18}
-\caption{Indicadores de desempeño para DRO-Wasserstein y Marco Generativo Ex-Ante, contra los dos modelos de referencia más cercanos de la Tabla~\ref{tab:metricas} (2010--2026).}
-\label{tab:metricas_extension}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{lrrrr}
-\toprule
-\textbf{Indicador / Métrica} & \textbf{DRO-Wasserstein} & \textbf{Mín. CVaR Ex-Ante} & \textbf{Mín. CVaR (ref.)} & \textbf{HERC (ref.)} \\
-\midrule
-\multicolumn{5}{l}{\textit{\textbf{A. Rendimiento y Retorno Acumulado}}} \\
-CAGR (\%) & 7.46 & 4.58 & 5.11 & 6.81 \\
-Retorno Acumulado (\%) & 228.7 & 109.8 & 127.9 & 197.2 \\
-\midrule
-\multicolumn{5}{l}{\textit{\textbf{B. Riesgo y Desempeño Ajustado}}} \\
-Volatilidad Anual (\%) & 8.92 & 5.32 & 5.32 & 7.35 \\
-Desviación a la Baja (\%) & 9.52 & 5.55 & 5.54 & 7.82 \\
-Ratio de Sharpe & 0.612 & 0.485 & 0.584 & 0.654 \\
-Ratio de Sortino & 0.573 & 0.465 & 0.561 & 0.615 \\
-Ratio de Calmar & 0.356 & 0.258 & 0.314 & 0.323 \\
-Ratio de Omega & 1.120 & 1.091 & 1.108 & 1.126 \\
-Ratio Ganancia/Pérdida & 1.165 & 1.165 & 1.182 & 1.182 \\
-\midrule
-\multicolumn{5}{l}{\textit{\textbf{C. Riesgo Extremo y Colas EVT}}} \\
-Retroceso Máximo (\%) & -20.93 & -17.78 & -16.29 & -21.11 \\
-CDaR 95\% (\%) & -14.90 & -12.78 & -12.77 & -15.35 \\
-VaR 95\% Diario (\%) & -0.86 & -0.52 & -0.52 & -0.72 \\
-CVaR 95\% Diario (\%) & -1.31 & -0.79 & -0.79 & -1.09 \\
-VaR 99\% EVT (\%) & -1.44 & -0.83 & -0.83 & -1.17 \\
-CVaR 99\% EVT (\%) & -1.84 & -1.06 & -1.05 & -1.53 \\
-Coeficiente de Asimetría & -0.559 & -0.218 & -0.173 & -0.368 \\
-Curtosis de Exceso & 9.16 & 4.52 & 3.69 & 7.75 \\
-\midrule
-\multicolumn{5}{l}{\textit{\textbf{D. Significancia y Operatividad}}} \\
-PSR (vs 0) (\%) & 99.30 & 97.53 & 99.09 & 99.58 \\
-DSR (\%) & 98.48 & 96.64 & 97.24 & 98.49 \\
-Rotación Anualizada (\%) & 3.77 & 413.00 & 66.37 & 31.43 \\
-Nº Efectivo de Activos ($N_{\text{eff}}$) & 8.92 & 1.93 & 1.84 & 6.46 \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-
-La Figura~\ref{fig:pesos_extension} muestra la contrapartida dinámica de la Tabla~\ref{tab:metricas_extension}: la evolución de la asignación de capital de ambos modelos a lo largo de los rebalanceos mensuales fuera de muestra, en el mismo formato que la Figura~\ref{fig:pesos} usa para el resto de los modelos. El contraste visual entre los dos paneles es directo: DRO-Wasserstein (Panel A) mantiene una estructura casi estática, mientras que Mínimo CVaR Ex-Ante (Panel B) exhibe reasignaciones bruscas y recurrentes --la contrapartida gráfica de la rotación de $413.00\%$ reportada en la Tabla~\ref{tab:metricas_extension}.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.96\textwidth]{fig08_evolucion_pesos_extension.png}
-\caption{Evolución temporal de la asignación de activos de DRO-Wasserstein (Panel A) y Mínimo CVaR Ex-Ante (Panel B) a lo largo de los rebalanceos mensuales fuera de muestra (2010--2026). Mismo protocolo Walk-Forward que la Figura~\ref{fig:pesos}.}
-\label{fig:pesos_extension}
 \end{figure}
 
 \section{Análisis Comparativo por Modelo}
@@ -577,13 +523,13 @@ HERC \textbf{no maximiza el retorno absoluto}: con CAGR de 6.81\% y retorno acum
 
 \subsection{DRO-Wasserstein}
 
-Con $\varepsilon = 0.02$, la penalización de norma $\|w\|_2$ empuja la solución lejos de las concentraciones que el CVaR empírico puro favorece --el resultado es una cartera con $N_{\text{eff}} = 8.92$ (prácticamente equiponderada en términos de diversificación efectiva, aunque no en pesos nominales) y una rotación anualizada de apenas $3.77\%$, la más baja de \textbf{todos} los modelos evaluados en este documento, incluido HERC. El Sharpe ($0.612$) queda entre Mínimo CVaR ($0.584$) y HERC ($0.654$), y el DSR ($98.48\%$) confirma que el resultado no es producto del azar de haber evaluado múltiples estrategias. La robustez distribucional no mejora el Sharpe crudo respecto de HERC, pero ofrece el perfil de menor fricción operativa del estudio -- relevante para mandatos con restricciones estrictas de costos de transacción o impacto de mercado. La Figura~\ref{fig:pesos_extension}A confirma visualmente esta estabilidad: la composición por activo apenas varía entre 2010 y 2026. El Panel C de la Figura~\ref{fig:riesgo} muestra además que, a diferencia de Markowitz, ningún activo concentra desproporcionadamente la contribución al riesgo.
+Con $\varepsilon = 0.02$, la penalización de norma $\|w\|_2$ empuja la solución lejos de las concentraciones que el CVaR empírico puro favorece --el resultado es una cartera con $N_{\text{eff}} = 8.92$ (prácticamente equiponderada en términos de diversificación efectiva, aunque no en pesos nominales) y una rotación anualizada de apenas $3.77\%$, la más baja de \textbf{todos} los modelos evaluados en este documento, incluido HERC. El Sharpe ($0.612$) queda entre Mínimo CVaR ($0.584$) y HERC ($0.654$), y el DSR ($98.48\%$) confirma que el resultado no es producto del azar de haber evaluado múltiples estrategias. La robustez distribucional no mejora el Sharpe crudo respecto de HERC, pero ofrece el perfil de menor fricción operativa del estudio -- relevante para mandatos con restricciones estrictas de costos de transacción o impacto de mercado. La Figura~\ref{fig:pesos}E confirma visualmente esta estabilidad: la composición por activo apenas varía entre 2010 y 2026. El Panel C de la Figura~\ref{fig:riesgo} muestra además que, a diferencia de Markowitz, ningún activo concentra desproporcionadamente la contribución al riesgo.
 
 \subsection{Marco Generativo Ex-Ante}
 
 El marco generativo ex-ante \textbf{no confirma} la expectativa de la literatura de que reemplazar retornos históricos por escenarios sintéticos GARCH-EVT-cópula mejore el desempeño fuera de muestra. Frente al Mínimo CVaR ex-post (mismo nivel de confianza $\alpha=0.95$, mismo universo): el Sharpe cae de $0.584$ a $0.485$, el retroceso máximo empeora levemente ($-16.29\%$ a $-17.78\%$), y la rotación anualizada se dispara de $66.37\%$ a $413.00\%$ -- un orden de magnitud mayor, comparable a Markowitz MVO ($288.75\%$) o Michaud ($503.76\%$), los dos modelos que este documento identifica como operativamente inviables.
 
-La causa más probable: el pronóstico de un paso adelante $(\mu_{i,t+1}, \sigma_{i,t+1})$ de cada activo es, por construcción, más reactivo mes a mes que un promedio histórico de 756 ruedas -- la cartera óptima resultante persigue la volatilidad condicional \textit{vigente} en cada rebalanceo en vez de una estimación suavizada, generando el mismo patrón de rotación excesiva que Michaud (1989) documenta para el error de estimación muestral en $(\hat{\mu}, \hat{\Sigma})$, aquí trasladado a la dimensión temporal del pronóstico GARCH. Esto es consistente con la motivación original de HERC/HRP (evitar invertir matrices de covarianza ruidosas) aplicada a un problema distinto: pronosticar $\sigma_{t+1}$ con precisión no implica que optimizar directamente contra ese pronóstico, rebalanceo a rebalanceo, sea operativamente estable. La Figura~\ref{fig:pesos_extension}B hace visible el mecanismo: a diferencia de cualquier otro panel de este documento, la composición cambia de forma abrupta rebalanceo a rebalanceo, sin un patrón de tendencia estable.
+La causa más probable: el pronóstico de un paso adelante $(\mu_{i,t+1}, \sigma_{i,t+1})$ de cada activo es, por construcción, más reactivo mes a mes que un promedio histórico de 756 ruedas -- la cartera óptima resultante persigue la volatilidad condicional \textit{vigente} en cada rebalanceo en vez de una estimación suavizada, generando el mismo patrón de rotación excesiva que Michaud (1989) documenta para el error de estimación muestral en $(\hat{\mu}, \hat{\Sigma})$, aquí trasladado a la dimensión temporal del pronóstico GARCH. Esto es consistente con la motivación original de HERC/HRP (evitar invertir matrices de covarianza ruidosas) aplicada a un problema distinto: pronosticar $\sigma_{t+1}$ con precisión no implica que optimizar directamente contra ese pronóstico, rebalanceo a rebalanceo, sea operativamente estable. La Figura~\ref{fig:pesos}F hace visible el mecanismo: a diferencia de cualquier otro panel de este documento, la composición cambia de forma abrupta rebalanceo a rebalanceo, sin un patrón de tendencia estable.
 
 Esto no invalida el marco generativo ex-ante como herramienta de \textit{medición} de riesgo de cola (el uso para el que la literatura citada en la Subsección \ref{sec:exante} lo diseñó originalmente) -- invalida específicamente su uso \textbf{directo} como insumo de un optimizador de Mínimo CVaR con rebalanceo mensual sin alguna forma de suavizado o penalización de turnover (por ejemplo, \textit{shrinkage} hacia el pronóstico del período anterior). El resultado se reporta sin ajustes adicionales, en línea con el resto del documento.
 
@@ -594,24 +540,26 @@ La Tabla~\ref{tab:benchmark} resume si cada modelo supera, iguala o queda por de
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.15}
-\caption{Posición relativa vs. cartera 60/40. \checkmark: supera; $\circ$: comparable; $\times$: inferior.}
+\caption{Posición relativa vs. cartera 60/40. \checkmark: supera; $\circ$: comparable (diferencia relativa $\lesssim 5\%$ o efecto mixto); $\times$: inferior.}
 \label{tab:benchmark}
-\begin{tabular}{lrrrr}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrr}
 \toprule
-\textbf{Métrica} & \textbf{Markowitz MVO} & \textbf{Mín. CVaR} & \textbf{HERC} & \textbf{1/N} \\
+\textbf{Métrica} & \textbf{Markowitz MVO} & \textbf{Mín. CVaR} & \textbf{HERC} & \textbf{1/N} & \textbf{DRO-Wass.} & \textbf{Mín. CVaR Ex-A.} \\
 \midrule
-CAGR (\%) & \checkmark & $\times$ & $\times$ & $\times$ \\
-Sharpe & $\times$ & $\times$ & $\times$ & $\times$ \\
-Retroceso máximo & $\times$ & \checkmark & $\circ$ & $\circ$ \\
-$\text{CVaR}_{99\%}^{\text{EVT}}$ & $\times$ & \checkmark & \checkmark & $\times$ \\
-Rotación & $\times$ & $\circ$ & \checkmark & \checkmark \\
-$N_{\text{eff}}$ & $\times$ & $\times$ & \checkmark & \checkmark \\
-DSR (\%) & $\times$ & $\times$ & $\circ$ & $\times$ \\
+CAGR (\%) & \checkmark & $\times$ & $\times$ & $\times$ & $\times$ & $\times$ \\
+Sharpe & $\times$ & $\times$ & $\times$ & $\times$ & $\times$ & $\times$ \\
+Retroceso máximo & $\times$ & \checkmark & $\circ$ & $\circ$ & $\circ$ & \checkmark \\
+$\text{CVaR}_{99\%}^{\text{EVT}}$ & $\times$ & \checkmark & \checkmark & $\times$ & $\circ$ & \checkmark \\
+Rotación & $\times$ & $\circ$ & \checkmark & \checkmark & \checkmark & $\times$ \\
+$N_{\text{eff}}$ & $\times$ & $\times$ & \checkmark & \checkmark & \checkmark & $\circ$ \\
+DSR (\%) & $\times$ & $\times$ & $\circ$ & $\times$ & $\circ$ & $\times$ \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}
 
-Ningún modelo supera al 60/40 en Sharpe dentro del período analizado. Los modelos de colas y HERC tienen sentido cuando el mandato impone restricciones de pérdida o requiere mayor número de activos efectivos, no como alternativa de mayor retorno.
+Ningún modelo supera al 60/40 en Sharpe dentro del período analizado, DRO-Wasserstein y Mínimo CVaR Ex-Ante incluidos. Los modelos de colas y HERC tienen sentido cuando el mandato impone restricciones de pérdida o requiere mayor número de activos efectivos, no como alternativa de mayor retorno; DRO-Wasserstein agrega a esa lista el menor costo de rotación del estudio, y Mínimo CVaR Ex-Ante es, de los nueve, el único que empeora simultáneamente en rotación y en significancia estadística (DSR) frente a su propio análogo ex-post.
 
 \subsection{Drawdown, Compounding y la Asimetría de las Pérdidas}
 
@@ -631,13 +579,13 @@ En la teoría del crecimiento óptimo de capital, Vince (1992) demostró que la 
 
 Los resultados fuera de muestra muestran diferencias cuantitativas entre modelos que no pueden atribuirse a una sola causa.
 
-Durante las crisis de 2011, 2020 y 2022, HERC registró un retroceso máximo de $-21.11\%$, frente a $-39.32\%$ en Markowitz MVO y $-28.48\%$ en Michaud. En 2022 la correlación positiva entre bonos y acciones afectó al 60/40 ($-21.18\%$), mientras que la ponderación de HERC en materias primas (DBC) y oro (GLD) redujo la caída relativa.
+Durante las crisis de 2011, 2020 y 2022, HERC registró un retroceso máximo de $-21.11\%$, frente a $-39.32\%$ en Markowitz MVO y $-28.48\%$ en Michaud. DRO-Wasserstein ($-20.93\%$) queda en la misma zona que HERC y el 60/40, mientras que Mínimo CVaR Ex-Ante ($-17.78\%$) contiene mejor la caída que el resto, aunque no tanto como el propio Mínimo CVaR histórico ($-16.29\%$) que busca reemplazar. En 2022 la correlación positiva entre bonos y acciones afectó al 60/40 ($-21.18\%$), mientras que la ponderación de HERC en materias primas (DBC) y oro (GLD) redujo la caída relativa.
 
-Markowitz MVO acumula el mayor retorno fuera de muestra (495.64\%), por encima del 60/40 (358.51\%) y de HERC (197.22\%). Este resultado se explica por la concentración en renta variable tecnológica durante un ciclo favorable para esa clase de activos. Ese retorno se obtiene con el mayor retroceso del universo ($-39.32\%$) y el Sharpe más bajo (0.55): el riesgo adicional asumido no fue compensado proporcionalmente.
+Markowitz MVO acumula el mayor retorno fuera de muestra (495.64\%), por encima del 60/40 (358.51\%), DRO-Wasserstein (228.66\%) y HERC (197.22\%). Este resultado se explica por la concentración en renta variable tecnológica durante un ciclo favorable para esa clase de activos. Ese retorno se obtiene con el mayor retroceso del universo ($-39.32\%$) y el Sharpe más bajo (0.55): el riesgo adicional asumido no fue compensado proporcionalmente.
 
-Markowitz MVO rota a 288.75\% anual y Michaud a 503.76\%; HERC opera a 31.43\%. Markowitz concentra el capital en $N_{\text{eff}} = 1.31$ activos. HERC alcanza $N_{\text{eff}} = 6.46$, con $\text{PSR} = 99.58\%$, $\text{DSR} = 98.49\%$ y $\text{CVaR}_{99\%}^{\text{EVT}} = -1.53\%$ frente a $-3.56\%$ de Markowitz.
+Markowitz MVO rota a 288.75\% anual y Michaud a 503.76\%; HERC opera a 31.43\% y DRO-Wasserstein a apenas 3.77\% --la rotación más baja de las nueve estrategias. Mínimo CVaR Ex-Ante es la excepción que confirma que la rotación no depende solo de la robustez matemática del modelo: con 413.00\% anual, su reasignación mensual es tan agresiva como la de Michaud, pese a partir de un marco de calibración de colas más sofisticado que el resto del documento. Markowitz concentra el capital en $N_{\text{eff}} = 1.31$ activos. HERC alcanza $N_{\text{eff}} = 6.46$, con $\text{PSR} = 99.58\%$, $\text{DSR} = 98.49\%$ y $\text{CVaR}_{99\%}^{\text{EVT}} = -1.53\%$ frente a $-3.56\%$ de Markowitz; DRO-Wasserstein llega a $N_{\text{eff}} = 8.92$, la diversificación efectiva más alta entre los modelos que sí estiman parámetros (solo 1/N, que no estima nada, la supera).
 
-De los dos modelos restantes, DRO-Wasserstein es el que mejor complementa a HERC dentro de este universo: rotación de apenas 3.77\% (la más baja del estudio) con un Sharpe (0.612) competitivo frente a Mínimo CVaR. El Marco Generativo Ex-Ante, en cambio, no traslada su rigor de calibración de colas a una mejora de desempeño cuando se lo usa como insumo directo del optimizador: su Sharpe (0.485) y su rotación (413.00\%) quedan peor posicionados que el propio Mínimo CVaR histórico que busca reemplazar.
+Ningún modelo de los nueve domina en todas las dimensiones, y las dos incorporaciones más recientes no cambian esa conclusión: DRO-Wasserstein es la que mejor complementa a HERC en este universo --misma familia de resultados moderados, pero con la menor fricción operativa del estudio, relevante para mandatos sensibles a costos de transacción. El Marco Generativo Ex-Ante, en cambio, no traslada su rigor de calibración de colas a una mejora de desempeño cuando se lo usa como insumo directo del optimizador: Sharpe (0.485) y rotación (413.00\%) quedan peor posicionados que el propio Mínimo CVaR histórico que busca reemplazar, un resultado que se reporta sin ajustar porque el objetivo de este documento es la evidencia empírica, no la confirmación de la hipótesis de partida.
 
 \section{Limitaciones del Estudio y Extensiones Metodológicas}
 
