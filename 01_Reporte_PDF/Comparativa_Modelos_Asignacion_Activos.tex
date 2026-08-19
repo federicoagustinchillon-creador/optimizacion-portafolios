@@ -173,6 +173,12 @@ La teoría clásica de selección de carteras (Markowitz, 1952) formula la asign
 \end{equation}
 Aquí $\mu \in \mathbb{R}^N$ es el vector de rendimientos esperados, $\Sigma \in \mathbb{R}^{N \times N}$ la matriz de covarianza poblacional, $\gamma > 0$ el coeficiente de aversión al riesgo y $w \in \mathbb{R}^N$ el vector de ponderaciones. En este trabajo se fija $\gamma = 2.5$, un valor habitual para gestión moderada en asignación multiactivo.
 
+Esta es la forma \textit{dual} del problema, expresada como maximización de utilidad. Markowitz (1952) lo planteó originalmente en su forma \textit{primal}: minimizar la varianza de la cartera sujeta a un retorno mínimo objetivo $r^*$:
+\begin{equation*}
+\min_{w} \quad w^T \Sigma w \quad \text{sujeto a} \quad \mu^T w \ge r^*, \quad \mathbf{1}^T w = 1, \quad w_i \ge 0 \quad \forall i
+\end{equation*}
+Ambas formulaciones son matemáticamente equivalentes: variar $\gamma$ en la ecuación (1) traza la misma frontera eficiente que variar $r^*$ en el problema primal, y cada punto de la frontera resuelve una versión de ambos problemas para algún par $(\gamma, r^*)$ correspondiente. La forma con aversión al riesgo es la más citada en la práctica de gestión activa de carteras (Grinold y Kahn, 2000) y es la que se implementa en este trabajo; la forma con restricción de retorno es la más fiel al artículo original de 1952 y la que suele aparecer en los cursos introductorios de teoría de carteras.
+
 Estimar $\mu$ y $\Sigma$ directamente de la muestra tiene limitaciones prácticas serias. Michaud (1989) demostró que el optimizador de media-varianza actúa como amplificador de errores muestrales (\textit{error maximizer}). Los activos con rendimientos sobrestimados o varianzas subestimadas reciben ponderaciones desproporcionadas. Por eso las carteras óptimas tienden a concentrarse en pocos instrumentos y muestran alta inestabilidad temporal, lo que induce rotaciones excesivas.
 
 Además, la varianza penaliza por igual las desviaciones positivas y negativas. Ese supuesto no se cumple en distribuciones con asimetría negativa y colas pesadas, donde la varianza subestima el riesgo de eventos extremos.
@@ -626,6 +632,8 @@ Engle, R. F. (1982). Autoregressive conditional heteroscedasticity with estimate
 Engle, R. F. (2002). Dynamic conditional correlation: A simple class of multivariate generalized autoregressive conditional heteroskedasticity models. \textit{Journal of Business \& Economic Statistics}, 20(3), 339--350.
 
 Esfahani, P. M., \& Kuhn, D. (2018). Data-driven distributionally robust optimization using the Wasserstein metric: Performance guarantees and tractable reformulations. \textit{Mathematical Programming}, 171(1--2), 115--166.
+
+Grinold, R. C., \& Kahn, R. N. (2000). \textit{Active Portfolio Management: A Quantitative Approach for Producing Superior Returns and Controlling Risk} (2nd ed.). McGraw-Hill.
 
 Grossman, S. J., \& Zhou, Z. (1993). Optimal investment strategies for controlling drawdowns. \textit{Mathematical Finance}, 3(3), 241--276.
 
