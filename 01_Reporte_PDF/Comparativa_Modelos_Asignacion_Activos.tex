@@ -595,6 +595,79 @@ Markowitz MVO rota a 288.75\% anual y Michaud a 503.76\%. HERC opera a 31.43\% y
 
 Ningún modelo de los nueve domina en todas las dimensiones. Las dos incorporaciones más recientes no cambian esa conclusión. DRO-Wasserstein es la que mejor complementa a HERC en este universo: misma familia de resultados moderados, pero con la menor fricción operativa del estudio, relevante para mandatos sensibles a costos de transacción. El Marco Generativo Ex-Ante, en cambio, no traslada su rigor de calibración de colas a una mejora de desempeño cuando se lo usa como insumo directo del optimizador. Sharpe (0.485) y rotación (413.00\%) quedan peor posicionados que el propio Mínimo CVaR histórico que busca reemplazar. El resultado se reporta sin ajustar porque el objetivo de este documento es la evidencia empírica, no la confirmación de la hipótesis de partida.
 
+\section{Apalancamiento y Réplica vía Opciones sin Acceso a Margen Institucional}
+\label{sec:argentina}
+
+Los nueve modelos anteriores se evalúan sin apalancamiento ($\sum w_i = 1$, $w_i \ge 0$): esa restricción fija la asignación \textit{relativa} entre activos, pero deja abierta una decisión ortogonal --cuánta exposición bruta tomar por unidad de capital propio-- que esta sección resuelve para dos de las carteras del estudio, la referencia 60/40 y HERC. Se contrastan dos mecanismos de acceso a esa exposición adicional: margen institucional a la tasa corta de EE.\,UU.\ (el supuesto habitual de la literatura de risk parity apalancado, Bridgewater/AQR) frente a opciones listadas, la vía disponible para un inversor sin ese acceso --el caso típico de una cartera minorista, con o sin residencia argentina.
+
+\subsection{Apalancamiento vía margen: proyección analítica sobre los resultados publicados}
+
+Se aplica el marco de \textit{volatility targeting} (Ecuación de \textit{leverage} estándar en risk parity institucional): dado un objetivo de volatilidad anual $\sigma^*$, el multiplicador $L = \sigma^* / \sigma_{\text{cartera}}$, acotado a un máximo $L_{\max} = 2.0$ (límite típico de margen de bróker). Con financiamiento a tasa $r_f$ sobre el capital prestado, el retorno aritmético y el CAGR resultantes se aproximan, a primer y segundo orden (arrastre por volatilidad, $g \approx r - \sigma^2/2$), como:
+\begin{equation}
+r_L \approx L \, r_u - (L-1) \, r_f, \qquad \text{CAGR}_L \approx r_L - \frac{(L\,\sigma_u)^2}{2}, \qquad \sigma_L = L\,\sigma_u
+\end{equation}
+donde $r_u \approx \text{CAGR}_u + \sigma_u^2/2$ se obtiene deshaciendo la misma aproximación sobre el CAGR ya publicado en la Tabla~\ref{tab:metricas}. Con $\sigma^* = 15\%$ y $r_f = 4.30\%$ (T-Bill de 13 semanas más 50\,pb de spread de bróker, promedio reciente):
+
+\begin{table}[H]
+\centering
+\caption{Proyección analítica de apalancamiento vía margen sobre 60/40 y HERC ($\sigma^*=15\%$, $r_f=4.30\%$). No es una nueva corrida walk-forward.}
+\label{tab:leverage-paper}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Cartera} & \textbf{$L$} & \textbf{CAGR proyectado} & \textbf{Vol. proyectada} & \textbf{Sharpe proyectado} \\
+\midrule
+60/40 (base: CAGR 9.64\%, $\sigma$ 9.79\%, Sharpe 0.781) & 1.53$\times$ & 12.09\% & 14.98\% & 0.807 \\
+HERC (base: CAGR 6.81\%, $\sigma$ 7.35\%, Sharpe 0.654) & 2.00$\times$\footnotemark & 8.78\% & 14.70\% & 0.597 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+\footnotetext{HERC satura en el tope $L_{\max}=2.0$: $\sigma^*/\sigma_u = 15\%/7.35\% = 2.04 > 2.0$. El objetivo de volatilidad no es la restricción activa en este caso --el tope de margen lo es.}
+
+La lectura directa sugeriría que 60/40 mejora levemente su Sharpe apalancado y HERC lo empeora. \textbf{Esta proyección debe leerse como una cota optimista, no como una predicción confiable.} Un backtest walk-forward independiente de HERC sobre el universo ampliado de 26 activos del motor principal (2003--2026), simulando el mecanismo de apalancamiento con margin calls e interés compuesto día a día en vez de la aproximación de primer/segundo orden de esta subsección, y con el mismo objetivo de volatilidad (15\%), da un Sharpe realizado de 0.621 --sensiblemente por debajo de la proyección analítica de la Tabla~\ref{tab:leverage-paper}. La diferencia es el costo de financiamiento compuesto sobre un capital prestado que crece con cada mala racha y la fricción de volatilidad de una cartera de mínima varianza forzada a un objetivo de riesgo muy por encima de su volatilidad natural --ningún término de esta aproximación captura la dependencia del camino ni el riesgo de \textit{margin call}. Los números de esta subsección deben tratarse como un límite superior optimista del desempeño apalancado, no como su estimación puntual.
+
+\subsection{Apalancamiento y cobertura vía opciones: réplica accesible sin margen}
+
+Para un inversor sin línea de margen institucional --el caso de la enorme mayoría de cuentas minoristas, y estructuralmente el de un inversor argentino sin acceso a tasas de fondeo en dólares-- la alternativa es replicar el efecto de apalancamiento o cobertura con opciones listadas sobre los mismos nueve ETFs de este estudio, que cotizan con cadenas de opciones líquidas en CBOE. Se precian con Black-Scholes-Merton (Black \& Scholes, 1973; Merton, 1973) usando la volatilidad realizada de cada activo en los últimos 3 años (no volatilidad implícita, que requeriría una cadena de opciones en vivo) y la misma tasa de financiamiento de la Subsección 9.1.
+
+\begin{table}[H]
+\centering
+\caption{Costo de tres estrategias de opciones a 3 meses (put protector 90\%, call vendido 110\%, collar neto) y de una LEAPS sintética a 1 año (call 80\%), sobre volatilidad realizada real de 3 años. Todos los valores en \% del nocional.}
+\label{tab:options-paper}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+\textbf{Ticker} & \textbf{Vol. 3a} & \textbf{Put 90\% (3m)} & \textbf{Call 110\% (3m)} & \textbf{Collar neto (3m)} & \textbf{LEAPS 80\% (1a)} & \textbf{Exp. embebida} \\
+\midrule
+SPY & 15.30\% & 0.203\% & 0.542\% & $-0.339\%$ (crédito) & 23.59\% & $\sim$4.1$\times$ \\
+QQQ & 20.35\% & 0.606\% & 1.206\% & $-0.600\%$ (crédito) & 24.16\% & $\sim$3.8$\times$ \\
+EEM & 19.52\% & 0.527\% & 1.086\% & $-0.559\%$ (crédito) & 24.04\% & $\sim$3.9$\times$ \\
+VNQ & 16.91\% & 0.310\% & 0.735\% & $-0.425\%$ (crédito) & 23.73\% & $\sim$4.0$\times$ \\
+TLT & 13.75\% & 0.122\% & 0.378\% & $-0.256\%$ (crédito) & 23.49\% & $\sim$4.2$\times$ \\
+IEF & 6.46\% & $\approx$0.000\% & 0.005\% & $-0.005\%$ (crédito) & 23.37\% & $\sim$4.3$\times$ \\
+LQD & 7.25\% & 0.001\% & 0.013\% & $-0.013\%$ (crédito) & 23.37\% & $\sim$4.3$\times$ \\
+GLD & 20.70\% & 0.642\% & 1.259\% & $-0.617\%$ (crédito) & 24.22\% & $\sim$3.8$\times$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+{\footnotesize DBC (materias primas) se excluye de esta tabla: no está disponible en el conjunto de datos del motor principal con el que se calculó, y este documento no fabrica una volatilidad de reemplazo para un activo sin datos reales.}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{fig08_costo_opciones_apalancamiento_argentina.png}
+\caption{Costo del collar 90/110 a 3 meses (izquierda) y de la LEAPS 80\% a 1 año frente al costo de margen (derecha), por ticker.}
+\label{fig:opciones-argentina}
+\end{figure}
+
+Dos hallazgos directos:
+
+\begin{enumerate}
+\item \textbf{El collar 90/110 es, en los ocho activos, un crédito neto} --el call vendido financia por completo, y con margen, al put comprado. Es la estrategia de cobertura de menor fricción de todo este documento: protección de cola sin costo de prima neto, ejecutable sin ninguna línea de margen. El costo real no es la prima (negativa) sino el upside resignado por encima del strike del call vendido, no capturado en esta tabla de primas puntuales.
+\item \textbf{La LEAPS sintética es estructuralmente cara.} Comprar exposición apalancada de un año vía una call profunda (80\% moneyness) cuesta 23--24\% del nocional en los ocho activos --un orden de magnitud por encima del costo de financiamiento de margen (4.30\% anual) de la Subsección 9.1. Es la prima que se paga por no tener acceso a margen institucional, no una forma barata de replicarlo: el mismo backtest walk-forward de la Subsección 9.1 muestra que, sobre HERC, esta vía produce una volatilidad del camino y un drawdown máximo dramáticamente peores que el margen, con un CAGR de largo plazo similar.
+\end{enumerate}
+
 \section{Limitaciones del Estudio y Extensiones Metodológicas}
 
 El modelo asume ejecución a precios de cierre ajustados. En activos de menor profundidad de mercado, como DBC o VNQ, los costos reales intradiarios pueden superar la cota de 5 puntos básicos.
@@ -618,6 +691,8 @@ Artzner, P., Delbaen, F., Eber, J. M., \& Heath, D. (1999). Coherent measures of
 Balkema, A. A., \& de Haan, L. (1974). Residual life time at great age. \textit{The Annals of Probability}, 2(5), 792--804.
 
 Barone-Adesi, G., Giannopoulos, K., \& Vosper, L. (1999). VaR without correlations for nonlinear portfolios. \textit{Journal of Futures Markets}, 19(5), 583--602.
+
+Black, F., \& Scholes, M. (1973). The pricing of options and corporate liabilities. \textit{Journal of Political Economy}, 81(3), 637--654.
 
 Chekhlov, A., Uryasev, S., \& Zabarankin, M. (2005). Drawdown measure in portfolio optimization. \textit{International Journal of Theoretical and Applied Finance}, 8(1), 13--58.
 
@@ -656,6 +731,8 @@ Markowitz, H. (1952). Portfolio selection. \textit{The Journal of Finance}, 7(1)
 McNeil, A. J., \& Frey, R. (2000). Estimation of tail-related risk measures for heteroscedastic financial time series: An extreme value approach. \textit{Journal of Empirical Finance}, 7(3--4), 271--300.
 
 McNeil, A. J., Frey, R., \& Embrechts, P. (2015). \textit{Quantitative Risk Management: Concepts, Techniques and Tools} (Revised Edition). Princeton University Press.
+
+Merton, R. C. (1973). Theory of rational option pricing. \textit{The Bell Journal of Economics and Management Science}, 4(1), 141--183.
 
 Merton, R. C. (1980). On estimating the expected return on the market: An exploratory investigation. \textit{Journal of Financial Economics}, 8(4), 323--361.
 
