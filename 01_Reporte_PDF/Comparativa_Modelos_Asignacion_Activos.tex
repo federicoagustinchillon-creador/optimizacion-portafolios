@@ -179,7 +179,7 @@ Esta es la forma \textit{dual} del problema, expresada como maximización de uti
 \end{equation*}
 Ambas formulaciones son matemáticamente equivalentes: variar $\gamma$ en la ecuación (1) traza la misma frontera eficiente que variar $r^*$ en el problema primal, y cada punto de la frontera resuelve una versión de ambos problemas para algún par $(\gamma, r^*)$ correspondiente. La forma con aversión al riesgo es la más citada en la práctica de gestión activa de carteras (Grinold y Kahn, 2000) y es la que se implementa en este trabajo; la forma con restricción de retorno es la más fiel al artículo original de 1952 y la que suele aparecer en los cursos introductorios de teoría de carteras.
 
-Estimar $\mu$ y $\Sigma$ directamente de la muestra tiene limitaciones prácticas serias. Michaud (1989) demostró que el optimizador de media-varianza actúa como amplificador de errores muestrales (\textit{error maximizer}). Los activos con rendimientos sobrestimados o varianzas subestimadas reciben ponderaciones desproporcionadas. Por eso las carteras óptimas tienden a concentrarse en pocos instrumentos y muestran alta inestabilidad temporal, lo que induce rotaciones excesivas.
+Estimar $\mu$ y $\Sigma$ directamente de la muestra tiene limitaciones prácticas serias. Michaud (1989) demostró que el optimizador de media-varianza actúa como amplificador de errores muestrales. Los activos con rendimientos sobrestimados o varianzas subestimadas reciben ponderaciones desproporcionadas. Por eso las carteras óptimas tienden a concentrarse en pocos instrumentos y muestran alta inestabilidad temporal, lo que induce rotaciones excesivas.
 
 Además, la varianza penaliza por igual las desviaciones positivas y negativas. Ese supuesto no se cumple en distribuciones con asimetría negativa y colas pesadas, donde la varianza subestima el riesgo de eventos extremos.
 
@@ -251,10 +251,10 @@ DBC & Materias Primas & 2.15 & 19.35 & $-0.49$ & $+3.35$ & $< 10^{-4}$ & $0.9888
 }
 \end{table}
 
-Los resultados de los contrastes son los siguientes:
+Los resultados de los contrastes son:
 \begin{enumerate}
     \item \textbf{No normalidad de los rendimientos.} El test de Jarque y Bera (1980) rechaza la normalidad en todos los activos ($p < 0.0001$). Las series presentan leptocurtosis, con curtosis de exceso de $+56.88$ en LQD y $+17.87$ en VNQ, y asimetría negativa en general.
-    \item \textbf{Heterocedasticidad condicional y efectos ARCH.} El estadístico $Q(10)$ de Ljung-Box sobre rendimientos al cuadrado ($r_t^2$) da $p < 0.0001$ en todos los activos. Eso confirma agrupamiento de volatilidad (\textit{volatility clustering}) y descarta el supuesto de varianza constante en retornos brutos (Engle, 1982).
+    \item \textbf{Heterocedasticidad condicional y efectos ARCH.} El estadístico $Q(10)$ de Ljung-Box sobre rendimientos al cuadrado ($r_t^2$) da $p < 0.0001$ en todos los activos. Eso confirma agrupamiento de volatilidad y descarta el supuesto de varianza constante en retornos brutos (Engle, 1982).
     \item \textbf{Estacionariedad.} El test ADF confirma que los log-precios son integrados $I(1)$ con $p > 0.05$, mientras que los rendimientos logarítmicos continuos son estacionarios $I(0)$ con $p < 10^{-20}$.
     \item \textbf{Condicionamiento matricial.} La matriz muestral $S$ tiene número de condición $\kappa(S) = 335.21$. La contracción de Ledoit-Wolf lo reduce a $\kappa(\Sigma_{\text{LW}}) = 241.06$, con autovalor mínimo $\lambda_{\min} = 8.82 \times 10^{-4} > 0$.
 \end{enumerate}
@@ -311,7 +311,7 @@ Dentro de cada cluster, los pesos individuales se asignan por paridad inversa a 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.96\textwidth]{fig02_frontera_eficiente_modelos.png}
-\caption{Frontera eficiente media-varianza analítica, posicionamiento de activos y los nueve modelos evaluados en este documento --incluidos DRO-Wasserstein y Marco Generativo Ex-Ante-- (Panel A) y cono de incertidumbre muestral bajo remuestreo bootstrap de Michaud (Panel B).}
+\caption{Frontera eficiente media-varianza analítica, posicionamiento de activos y los nueve modelos evaluados en este documento, incluidos DRO-Wasserstein y Marco Generativo Ex-Ante (Panel A), y cono de incertidumbre muestral bajo remuestreo bootstrap de Michaud (Panel B).}
 \label{fig:frontera}
 \end{figure}
 
@@ -420,12 +420,12 @@ El umbral de penalización $\text{SR}_0$ se determina a partir del valor esperad
 \begin{equation}
 \text{SR}_0 = \sqrt{V\left[\{\widehat{\text{SR}}_m\}\right]} \left[ (1 - \gamma_E) \Phi^{-1}\left(1 - \frac{1}{M}\right) + \gamma_E \Phi^{-1}\left(1 - \frac{1}{M e}\right) \right]
 \end{equation}
-donde $\gamma_E \approx 0.5772$ es la constante de Euler-Mascheroni, $M = 7$ el número de estrategias evaluadas y $V[\{\widehat{\text{SR}}_m\}]$ la varianza muestral de los ratios de Sharpe estimados entre los modelos. La Figura~\ref{fig:cpcv} resume la distribución del ratio de Sharpe fuera de muestra a través de las 15 trayectorias generadas por CPCV.
+donde $\gamma_E \approx 0.5772$ es la constante de Euler-Mascheroni, $M = 7$ el número de estrategias evaluadas y $V[\{\widehat{\text{SR}}_m\}]$ la varianza muestral de los ratios de Sharpe estimados entre los modelos. La Figura~\ref{fig:cpcv} resume la distribución del ratio de Sharpe fuera de muestra en las 15 trayectorias generadas por CPCV.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.86\textwidth]{fig06_cpcv_distribucion_sharpe.png}
-\caption{Distribución fuera de muestra del Ratio de Sharpe bajo Validación Cruzada Combinatoria con Embargo (CPCV, 15 particiones independientes, 8 estrategias --incluye DRO-Wasserstein y Mínimo CVaR Ex-Ante, evaluados bajo la misma partición $N=6$, $k=2$).}
+\caption{Distribución fuera de muestra del Ratio de Sharpe bajo Validación Cruzada Combinatoria con Embargo (CPCV, 15 particiones independientes, 8 estrategias, incluye DRO-Wasserstein y Mínimo CVaR Ex-Ante evaluados bajo la misma partición $N=6$, $k=2$).}
 \label{fig:cpcv}
 \end{figure}
 
@@ -436,7 +436,7 @@ La Tabla~\ref{tab:metricas} presenta el desempeño de las estrategias durante el
 \begin{table}[H]
 \centering
 \renewcommand{\arraystretch}{1.18}
-\caption{Indicadores de desempeño, riesgo, colas extremas y operatividad fuera de muestra (2010--2026) para los nueve modelos evaluados en este documento.}
+\caption{Indicadores de desempeño, riesgo, colas extremas y operatividad fuera de muestra (2010--2026) para los nueve modelos evaluados.}
 \label{tab:metricas}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lrrrrrrrrr}
@@ -481,7 +481,7 @@ La asignación dinámica de capital en cada rebalanceo mensual se detalla en la 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.98\textwidth]{fig03_evolucion_pesos_walk_forward.png}
-\caption{Evolución temporal de la asignación de activos a lo largo de los rebalanceos mensuales fuera de muestra (2010--2026): Markowitz MVO (A), Mínimo CVaR (B), HERC (C), Referencia 60/40 (D), DRO-Wasserstein (E) y Mínimo CVaR Ex-Ante (F).}
+\caption{Evolución temporal de la asignación de activos a lo largo de los rebalanceos mensuales fuera de muestra (2010--2026). Markowitz MVO (A), Mínimo CVaR (B), HERC (C), Referencia 60/40 (D), DRO-Wasserstein (E) y Mínimo CVaR Ex-Ante (F).}
 \label{fig:pesos}
 \end{figure}
 
@@ -495,7 +495,7 @@ La asignación dinámica de capital en cada rebalanceo mensual se detalla en la 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\textwidth]{fig07_descomposicion_riesgo_cluster.png}
-\caption{Descomposición del presupuesto de riesgo: Ponderación de capital ($w_i$) frente a Contribución Marginal al Riesgo ($\%RC_i$) por activo. Markowitz MVO (Panel A) y HERC (Panel B) sobre la asignación estática de muestra completa ya reportada en la Sección 3; DRO-Wasserstein (Panel C) y Mínimo CVaR Ex-Ante (Panel D) sobre la misma optimización aplicada una sola vez a toda la muestra, para comparabilidad directa con A y B.}
+\caption{Descomposición del presupuesto de riesgo. Ponderación de capital ($w_i$) frente a Contribución Marginal al Riesgo ($\%RC_i$) por activo. Markowitz MVO (Panel A) y HERC (Panel B) sobre la asignación estática de muestra completa ya reportada en la Sección 3. DRO-Wasserstein (Panel C) y Mínimo CVaR Ex-Ante (Panel D) sobre la misma optimización aplicada una sola vez a toda la muestra, para comparabilidad directa con A y B.}
 \label{fig:riesgo}
 \end{figure}
 
@@ -505,17 +505,17 @@ Ningún modelo domina al resto en todas las métricas. Cada estrategia resuelve 
 
 \subsection{Equiponderado (1/N)}
 
-La cartera equiponderada fija $w_i = 1/9$ sin estimar parámetros. No tiene error de estimación y es el único modelo cuya solución no depende de los datos históricos. DeMiguel et al.\ (2009) mostraron empíricamente que 1/N supera a Markowitz en retorno ajustado por riesgo en la mayoría de los conjuntos de datos con ventanas de estimación inferiores a 50 años. Es consecuencia directa de la amplificación del error muestral en el optimizador cuadrático. Alcanza $N_{\text{eff}} = 9.00$, el más alto del universo. Su limitación es estructural: asigna igual capital a activos con volatilidades muy distintas (IEF: 6.9\%; VNQ: 29.6\%).
+La cartera equiponderada fija $w_i = 1/9$ sin estimar parámetros. No tiene error de estimación y es el único modelo cuya solución no depende de los datos históricos. DeMiguel et al.\ (2009) mostraron empíricamente que 1/N supera a Markowitz en retorno ajustado por riesgo en la mayoría de los conjuntos de datos con ventanas de estimación inferiores a 50 años. Es consecuencia directa de la amplificación del error muestral en el optimizador cuadrático. Alcanza $N_{\text{eff}} = 9.00$, el más alto del universo. Su limitación es estructural: asigna igual capital a activos con volatilidades muy distintas (IEF 6.9\% y VNQ 29.6\%).
 
 \subsection{Cartera 60/40}
 
 La cartera 60/40 (60\% SPY, 40\% IEF) registra el mayor CAGR neto (9.64\%), el mejor Sharpe (0.78), el mejor Sortino (0.74) y el DSR más alto (99.64\%). Es la referencia contra la que se comparan los demás modelos y ninguno la supera en retorno ajustado por riesgo dentro del período analizado.
 
-Sus resultados dependen del régimen: el ciclo 2010--2026 estuvo dominado por expansión tecnológica y tasas reales negativas. En la práctica es casi un portafolio de dos activos ($N_{\text{eff}} = 1.92$). En 2022 la correlación positiva entre bonos y acciones produjo una caída del $-21.18\%$, lo que pone de manifiesto que la diversificación entre clases no siempre opera en episodios de contracción simultánea.
+Sus resultados dependen del régimen. El ciclo 2010--2026 estuvo dominado por expansión tecnológica y tasas reales negativas. En la práctica es casi un portafolio de dos activos ($N_{\text{eff}} = 1.92$). En 2022, la correlación positiva entre bonos y acciones produjo una caída del $-21.18\%$. Eso pone de manifiesto que la diversificación entre clases no siempre opera en episodios de contracción simultánea.
 
 \subsection{Markowitz Media-Varianza}
 
-Markowitz MVO registra el mayor retorno acumulado del universo (CAGR 11.39\%, acumulado 495.64\%), pero con el peor perfil de riesgo. La volatilidad anual es de 17.05\%, el retroceso máximo de $-39.32\%$, el $\text{CVaR}_{99\%}^{\text{EVT}}$ de $-3.56\%$ y la rotación anual de 288.75\%. El Sharpe de 0.55 es el más bajo. El retorno adicional frente al 60/40 no compensa el riesgo en ninguna métrica ajustada. La concentración en $N_{\text{eff}} = 1.31$ activos es consecuencia del comportamiento de amplificador de errores (\textit{error maximizer}) documentado por Michaud (1989): errores pequeños en $\hat{\mu}$ se amplifican en las ponderaciones y concentran la cartera en activos con alto retorno histórico reciente.
+Markowitz MVO registra el mayor retorno acumulado del universo (CAGR 11.39\%, acumulado 495.64\%), pero con el peor perfil de riesgo. La volatilidad anual es de 17.05\%, el retroceso máximo de $-39.32\%$, el $\text{CVaR}_{99\%}^{\text{EVT}}$ de $-3.56\%$ y la rotación anual de 288.75\%. El Sharpe de 0.55 es el más bajo. El retorno adicional frente al 60/40 no compensa el riesgo en ninguna métrica ajustada. La concentración en $N_{\text{eff}} = 1.31$ activos es consecuencia del comportamiento de amplificador de errores documentado por Michaud (1989): errores pequeños en $\hat{\mu}$ se amplifican en las ponderaciones y concentran la cartera en activos con alto retorno histórico reciente.
 
 \subsection{Mínimo CVaR y Mínimo CDaR}
 
@@ -577,9 +577,9 @@ Magdon-Ismail y Atiya (2004) formalizaron el retroceso máximo esperado como fun
 \begin{equation}
 \mathbb{E}[\text{MaxDD}(T)] \approx \sqrt{\frac{\pi}{2}} \cdot \frac{\sigma_{\text{anual}}}{\text{SR}} \cdot \sqrt{T}
 \end{equation}
-Dado un Sharpe de 0.55 y $\sigma = 17.05\%$, Markowitz genera retrocesos esperados considerablemente mayores que HERC (Sharpe 0.65, $\sigma = 7.35\%$) en cualquier horizonte.
+Con Sharpe de 0.55 y $\sigma = 17.05\%$, Markowitz genera retrocesos esperados considerablemente mayores que HERC (Sharpe 0.65, $\sigma = 7.35\%$) en cualquier horizonte.
 
-Grossman y Zhou (1993) demostraron que bajo un mandato de preservación de capital (límite de retroceso), la solución óptima no es la cartera de media-varianza, sino una que gestiona activamente la distancia al máximo histórico. Este resultado justifica formalmente los modelos Min-CDaR y, en menor medida, HERC como alternativas a Markowitz cuando el mandato incluye restricciones de pérdida.
+Grossman y Zhou (1993) demostraron que bajo un mandato de preservación de capital con límite de retroceso, la solución óptima no es la cartera de media-varianza, sino una que gestione activamente la distancia al máximo histórico. Este resultado justifica formalmente los modelos Min-CDaR y, en menor medida, HERC como alternativas a Markowitz cuando el mandato incluye restricciones de pérdida.
 
 En la teoría del crecimiento óptimo de capital, Vince (1992) demostró que la maximización del crecimiento geométrico ---equivalente al criterio de Kelly--- penaliza el retroceso en forma multiplicativa. Una estrategia con alta tasa de ganancia pero pérdidas profundas puede destruir más capital geométrico que una con menor tasa de aciertos pero pérdidas limitadas. El resultado directo es que controlar la magnitud de la pérdida domina a maximizar la frecuencia de retornos positivos en la función de crecimiento de largo plazo.
 
@@ -589,9 +589,9 @@ Los resultados fuera de muestra muestran diferencias cuantitativas entre modelos
 
 Durante las crisis de 2011, 2020 y 2022, HERC registró un retroceso máximo de $-21.11\%$, frente a $-39.32\%$ en Markowitz MVO y $-28.48\%$ en Michaud. DRO-Wasserstein ($-20.93\%$) queda en la misma zona que HERC y el 60/40. Mínimo CVaR Ex-Ante ($-17.78\%$) contiene mejor la caída que el resto, aunque no tanto como el propio Mínimo CVaR histórico ($-16.29\%$) que busca reemplazar. En 2022 la correlación positiva entre bonos y acciones afectó al 60/40 ($-21.18\%$), mientras que la ponderación de HERC en materias primas (DBC) y oro (GLD) redujo la caída relativa.
 
-Markowitz MVO acumula el mayor retorno fuera de muestra (495.64\%), por encima del 60/40 (358.51\%), DRO-Wasserstein (228.66\%) y HERC (197.22\%). Este resultado se explica por la concentración en renta variable tecnológica durante un ciclo favorable para esa clase de activos. Ese retorno se obtiene con el mayor retroceso del universo ($-39.32\%$) y el Sharpe más bajo (0.55): el riesgo adicional asumido no fue compensado proporcionalmente.
+Markowitz MVO acumula el mayor retorno fuera de muestra (495.64\%), por encima del 60/40 (358.51\%), DRO-Wasserstein (228.66\%) y HERC (197.22\%). Ese retorno se explica por la concentración en renta variable tecnológica durante un ciclo favorable para esa clase de activos. Se obtiene con el mayor retroceso del universo ($-39.32\%$) y el Sharpe más bajo (0.55): el riesgo adicional asumido no fue compensado proporcionalmente.
 
-Markowitz MVO rota a 288.75\% anual y Michaud a 503.76\%. HERC opera a 31.43\% y DRO-Wasserstein a 3.77\%, la rotación más baja de las nueve estrategias. Mínimo CVaR Ex-Ante es la excepción que confirma que la rotación no depende solo de la robustez matemática del modelo: con 413.00\% anual, su reasignación mensual es tan agresiva como la de Michaud, pese a partir de un marco de calibración de colas más sofisticado que el resto del documento. Markowitz concentra el capital en $N_{\text{eff}} = 1.31$ activos. HERC alcanza $N_{\text{eff}} = 6.46$, con $\text{PSR} = 99.58\%$, $\text{DSR} = 98.49\%$ y $\text{CVaR}_{99\%}^{\text{EVT}} = -1.53\%$ frente a $-3.56\%$ de Markowitz; DRO-Wasserstein llega a $N_{\text{eff}} = 8.92$, la diversificación efectiva más alta entre los modelos que sí estiman parámetros (solo 1/N, que no estima nada, la supera).
+Markowitz MVO rota a 288.75\% anual y Michaud a 503.76\%. HERC opera a 31.43\% y DRO-Wasserstein a 3.77\%, la rotación más baja de las nueve estrategias. Mínimo CVaR Ex-Ante es la excepción que confirma que la rotación no depende solo de la robustez matemática del modelo. Con 413.00\% anual, su reasignación mensual es tan agresiva como la de Michaud, pese a partir de un marco de calibración de colas más sofisticado que el resto del documento. Markowitz concentra el capital en $N_{\text{eff}} = 1.31$ activos. HERC alcanza $N_{\text{eff}} = 6.46$, con $\text{PSR} = 99.58\%$, $\text{DSR} = 98.49\%$ y $\text{CVaR}_{99\%}^{\text{EVT}} = -1.53\%$ frente a $-3.56\%$ de Markowitz. DRO-Wasserstein llega a $N_{\text{eff}} = 8.92$, la diversificación efectiva más alta entre los modelos que estiman parámetros. Solo 1/N, que no estima nada, la supera.
 
 Ningún modelo de los nueve domina en todas las dimensiones. Las dos incorporaciones más recientes no cambian esa conclusión. DRO-Wasserstein es la que mejor complementa a HERC en este universo: misma familia de resultados moderados, pero con la menor fricción operativa del estudio, relevante para mandatos sensibles a costos de transacción. El Marco Generativo Ex-Ante, en cambio, no traslada su rigor de calibración de colas a una mejora de desempeño cuando se lo usa como insumo directo del optimizador. Sharpe (0.485) y rotación (413.00\%) quedan peor posicionados que el propio Mínimo CVaR histórico que busca reemplazar. El resultado se reporta sin ajustar porque el objetivo de este documento es la evidencia empírica, no la confirmación de la hipótesis de partida.
 
