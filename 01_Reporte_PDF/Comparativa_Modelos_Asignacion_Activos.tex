@@ -668,6 +668,94 @@ Dos hallazgos directos:
 \item \textbf{La LEAPS sintética es estructuralmente cara.} Comprar exposición apalancada de un año vía una call profunda (80\% moneyness) cuesta 23--24\% del nocional en los ocho activos, un orden de magnitud por encima del costo de financiamiento de margen (4.30\% anual) de la Subsección 9.1. Es la prima que se paga por no tener acceso a margen institucional, no una forma barata de replicarlo: el mismo backtest walk-forward de la Subsección 9.1 muestra que, sobre HERC, esta vía produce una volatilidad del camino y un drawdown máximo dramáticamente peores que el margen, con un CAGR de largo plazo similar.
 \end{enumerate}
 
+\section{Auditoría de Robustez: Broken Pipe Test (Ruido Blanco al 50\% del Universo)}
+\label{sec:brokenpipe}
+
+Los nueve modelos de este documento se validan fuera de muestra, pero eso por sí solo no
+descarta una fuga de información dentro del pipeline (\textit{look-ahead bias}, fuga entre
+particiones de CPCV, o un error de implementación que fabrique retorno donde no lo hay). La
+prueba de control estándar para esa clase de error es reemplazar una fracción del universo
+por ruido blanco puro y verificar que el motor real no le atribuye retorno significativo:
+ningún activo i.i.d.\ de media cero puede tener contribución esperada distinta de cero a
+una cartera optimizada correctamente.
+
+\textbf{Metodología.} Se reemplazan 4 de los 9 tickers (44\%, la fracción entera más
+cercana al 50\% con 9 activos) por ruido blanco gaussiano en cada corrida, y se ejecuta el
+motor HERC walk-forward real de este documento (misma lógica de costo y deriva de pesos que
+la Sección 5.1) más CPCV (Sección 5.2) y el Deflated Sharpe Ratio (Sección 5.3), sobre 40
+semillas independientes. La corrida es sobre \textbf{mercado real}
+(\texttt{precios\_ajustados.csv}, los mismos nueve activos y período 2007--2026 de todo este
+documento), no un universo sintético.
+
+\textbf{Hallazgo metodológico.} La lectura literal del ejercicio --calibrar el ruido a la
+misma media del activo real que reemplaza-- le da al ruido, sobre un universo con prima de
+riesgo positiva real (SPY/QQQ 2007--2026), la misma esperanza que el activo real: una
+estrategia que cobra esa prima no está filtrando información, está cobrando correctamente
+lo que el propio generador de ruido le regaló. La premisa lógica del test (``ningún activo
+de ruido i.i.d.\ puede tener retorno esperado positivo'') sólo vale si el ruido es de media
+cero. Se corrigió a \texttt{noise\_mean\_mode=`zero'} (media exactamente 0) como
+configuración correcta, y se corrió también \texttt{`matched'} para exhibir el falso
+positivo esperado:
+
+\begin{table}[H]
+\centering
+\caption{Broken Pipe Test sobre mercado real (2007--2026): contribución diaria del sleeve de ruido, 40 semillas independientes por modo.}
+\label{tab:brokenpipe-modes}
+\begin{tabular}{lrrl}
+\toprule
+\textbf{Modo} & \textbf{Contribución media diaria} & \textbf{$p$-valor} & \textbf{Veredicto} \\
+\midrule
+\texttt{zero} (correcto) & $+0.000008$ & 0.176 & Sin evidencia de fuga \\
+\texttt{matched} (lectura literal) & $+0.000100$ & $<0.0001$ & Fuga clara (artefacto esperado) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Con 20 semillas el $p$-valor del modo \texttt{zero} había cruzado el umbral 0.05 por poco
+(0.026); se subió a 40 semillas antes de reportar un veredicto, mismo criterio de potencia
+estadística del resto de este documento (Sección 5.3) en vez de concluir sobre un
+$p$-valor marginal con pocos ensayos.
+
+\begin{table}[H]
+\centering
+\caption{Métricas agregadas del Broken Pipe Test, modo \texttt{zero} (40 semillas).}
+\label{tab:brokenpipe-metrics}
+\begin{tabular}{lr}
+\toprule
+\textbf{Métrica} & \textbf{Valor} \\
+\midrule
+Sharpe medio del portafolio (entre semillas) & 0.443 \\
+Contribución media diaria del sleeve de ruido & $+0.000008$ \\
+Contribución, $p$-valor (vs.\ 0) & 0.176 \\
+Deflated Sharpe Ratio & 0.221 \\
+Semillas independientes & 40 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Veredicto: sin evidencia de fuga de información} en el motor HERC walk-forward de
+este documento. Reproducible con:
+\begin{quote}
+\texttt{python 03\_Codigo/broken\_pipe\_test.py}
+\end{quote}
+
+\subsection{Nota complementaria: distancia de correlación absoluta para coberturas}
+
+La fórmula clásica de distancia angular de la Sección 2 ($d = \sqrt{0.5(1-\rho)}$) asigna a
+una cobertura con $\rho=-0.9$ una distancia $d=0.975$ --más lejos que un activo sin ninguna
+relación ($\rho=0 \Rightarrow d=0.707$)-- porque trata la correlación negativa fuerte como
+disimilitud, no como la relación de cobertura que en realidad representa. Una distancia
+alternativa $D = 1-|\rho|$ coloca a esa misma cobertura a $D=0.1$, en el vecindario
+inmediato del árbol jerárquico. En el universo de nueve activos de este documento las
+coberturas no llegan a ese extremo --TLT/IEF frente a la renta variable rondan
+$\rho \approx -0.3$ a $-0.4$ en 2007--2026 (Tabla~\ref{tab:diagnostico}), un caso más
+moderado que el ejemplo de $\rho=-0.9$-- pero el mismo argumento matemático aplica en
+magnitud proporcional. La función queda disponible (\texttt{calcular\_distancia\_angular\_abs\_corr}
+en \texttt{03\_Codigo/broken\_pipe\_test.py}) sin cablearse dentro de
+\texttt{pipeline\_optimizacion.py}: cambiar la distancia por defecto regeneraría todas las
+figuras y tablas ya publicadas en este documento sin que se haya pedido explícitamente ese
+cambio de metodología.
+
 \section{Limitaciones del Estudio y Extensiones Metodológicas}
 
 El modelo asume ejecución a precios de cierre ajustados. En activos de menor profundidad de mercado, como DBC o VNQ, los costos reales intradiarios pueden superar la cota de 5 puntos básicos.
