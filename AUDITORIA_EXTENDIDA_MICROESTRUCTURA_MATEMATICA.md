@@ -17,6 +17,45 @@
 
 ---
 
+## Estado del "paper" (Word/PDF publicado) tras esta auditoría
+
+**`02_Documento_Word/Comparativa_Modelos_Asignacion_Activos.docx` (fuente canónica) —
+ACTUALIZADO.** Se agregó una nueva sección, *"Auditoría de Robustez: Broken Pipe Test
+(Ruido Blanco al 50% del Universo)"*, antes de "Referencias", con el hallazgo real de la
+Sección 0 de este documento (resultado sobre mercado real, hallazgo metodológico
+`zero` vs. `matched`, tabla de resultados) y una nota sobre la distancia de correlación
+absoluta (Sección 4 de este documento). Editado con `python-docx`, validado
+estructuralmente (XSD + diff de párrafos) y verificado visualmente contra el estilo
+tipográfico existente (Georgia, encabezados en negrita centrados, tabla sin bordes —
+mismo criterio que el resto del documento).
+
+**`01_Reporte_PDF/Comparativa_Modelos_Asignacion_Activos.pdf` — NO regenerado desde el
+DOCX actualizado, deliberadamente.** Dos motivos concretos, no una omisión:
+
+1. **Ya hay un precedente documentado en este mismo repositorio de que regenerar este PDF
+   automáticamente sale mal.** El historial de git muestra exactamente ese intento y su
+   reversión: `ddd706b` ("chore: regenerate report PDF from DOCX canonical source") seguido
+   de `e1ce63b` ("revert: restore original report PDF (pre-regeneration, 18 pages)") —
+   la versión regenerada automáticamente (929 KB) se descartó a favor de la original
+   (4.59 MB, 18 páginas), evidencia de que la conversión automática pierde algo que la
+   original tiene.
+2. **Este entorno de sandbox no tiene instalada la tipografía Georgia** que usa el documento
+   (verificado: `fc-match Georgia` resuelve a "DejaVu Serif" por sustitución silenciosa) —
+   cualquier conversión DOCX→PDF hecha acá (LibreOffice headless, la única herramienta
+   disponible) renderizaría el documento COMPLETO —no solo la sección nueva— con la
+   tipografía equivocada, reproduciendo exactamente el tipo de degradación que el commit
+   `e1ce63b` ya corrigió una vez.
+
+**Qué hacer en la próxima sesión con el entorno correcto:** abrir
+`02_Documento_Word/Comparativa_Modelos_Asignacion_Activos.docx` (ya actualizado) en
+Microsoft Word real (con Georgia instalada) y usar "Guardar como PDF" / "Exportar a PDF"
+para regenerar `01_Reporte_PDF/Comparativa_Modelos_Asignacion_Activos.pdf` — el mismo
+proceso manual que aparentemente produjo el PDF de 18 páginas actual. No usar conversión
+automática (LibreOffice/`soffice --convert-to pdf`) sin antes instalar la fuente Georgia y
+comparar visualmente contra el PDF actual, dado el precedente ya documentado arriba.
+
+---
+
 ## 0. La Regla de Oro: Broken Pipe Test — resultado sobre MERCADO REAL
 
 **Implementado:** [`03_Codigo/broken_pipe_test.py`](./03_Codigo/broken_pipe_test.py).
