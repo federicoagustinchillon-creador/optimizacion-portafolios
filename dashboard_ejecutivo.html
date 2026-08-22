@@ -1,0 +1,43 @@
+<1DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Financiero & Cuantitativo | Federico Agustín Chillón</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5M4.3/dist/echarts.min.js"></script>
+  <style>
+    body { background-color: #09090b; color: #fafafa; font-family: system-ui, -apple-system, sans-serif; }
+    .glass-card { background: rgba(18, 18, 21, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .tabular-numbers { font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col" x-data="{ activeTab: 'portafolios' }">
+
+  <header class="border-b border-white/[0.08] bg-zinc-900/80 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="h-9 w-9 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold">
+          FC
+        </div>
+        <div>
+          <h1 class="text-sm font-semibold tracking-tight text-white">Federico Agustín Chillón</h1>
+          <p class="text-xs text-zinc-400">Estudiante de Economía (UNCUYO) | Finanzas Cuantitativas & Analytics</p>
+        </div>
+      </div>
+
+      <nav class="flex space-x-1 bg-zinc-950 p-1 rounded-lg border border-white/[0.06]">
+        <button @click="activeTab = 'portafolios'" :class="activeTab === 'portafolios' ? 'bg-indigo-600 text-white' : 'text-zinc-400'" class="px-3 py-1.5 rounded-md text-xs font-medium">
+          Optimización HERC / EVT
+        </button>
+        <button @click="activeTab = 'scoring'
+{ :class="activeTab === 'scoring' ? 'bg-indigo-600 text-white' : 'text-zinc-400'" class="px-3 py-1.5 rounded-md text-xs font-medium">
+          Scoring Crediticio ($76M)
+        </button>
+        <button @click="activeTab = 'valuacion'" :class="activeTab === 'valuacion' ? 'bg-indigo-600 text-white' : 'text-zinc-400'" class="px-3 py-1.5 rounded-md text-xs font-medium">
+          Valuación Aluar (DCF)
+        </button>
+      </nav>
+
